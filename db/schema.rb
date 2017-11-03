@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20171103075421) do
   create_table "restaurants", force: :cascade do |t|
     t.string "email"
     t.string "password"
-    t.string "category"
+    t.string "address"
     t.float "longitude"
     t.float "latitude"
     t.datetime "created_at", null: false

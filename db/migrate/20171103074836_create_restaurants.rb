@@ -3,7 +3,7 @@ class CreateRestaurants < ActiveRecord::Migration[5.1]
     create_table :restaurants do |t|
       t.string :email
       t.string :password
-      t.string :category
+      t.string :address
       t.float :longitude
       t.float :latitude
 
