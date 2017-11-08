@@ -11,14 +11,13 @@ class GroupsController < ApplicationController
   end
 
   def new
+    @group = Group.new
   end
 
   def create
-    Group.create(
-      name: params[:name]
-      #add email.
+    current_user.groups.create(params.require(:group).permit(:name))
+    redirect_to root_path
 
-    )
   end
 
   def edit
