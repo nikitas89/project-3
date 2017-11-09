@@ -1,0 +1,8 @@
+<h1>Groups#new</h1>
+<p>Find me in app/views/groups/new.html.erb</p>
+<%=  form_for  @group do |f| %>
+<!-- html form elements -->
+<%= f.text_field :name%>
+<%= f.submit("create group") %>
+<% end %>
+ <%= link_to 'Back', groups_path %>
