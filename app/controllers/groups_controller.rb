@@ -35,5 +35,9 @@ class GroupsController < ApplicationController
   end
 
   def update
+    @group = Group.find(params[:id])
+    @group.update(params.require(:group).permit(:name))
+    # current_user.groups.update(params.require(:group).permit(:name))
+    redirect_to groups_path
   end
 end
