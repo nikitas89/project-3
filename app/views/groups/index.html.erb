@@ -2,5 +2,9 @@
 <p>Find me in app/views/group/index.html.erb</p>
 
 <% @groups.each do |group| %>
-  <li> <%=group.name %>  </li>
+  <li> <%=group.id %>.  <%=group.name %>  </li>
+  <%=  link_to "Delete", group_path(group), method: :delete, remote:true       %>
+  <%=  link_to "Edit", edit_group_path(group)     %>
+
+
 <% end%>
