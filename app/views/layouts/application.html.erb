@@ -8,16 +8,17 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="d-flex flex-column">
     <header>
       <nav class="d-flex justify-content-between navbar navbar-dark bg-dark">
-        <!-- hamburger icon (left side) -->
+
         <div>
           <button class="navbar-toggler" id="navbarSideButton" type="button">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <a class="navbar-brand" href="/">Convene</a>
+          <a class="navbar-brand px-3" href="/">Convene</a>
         </div>
+
 
         <!-- register and login (right side) -->
         <div>
@@ -28,16 +29,17 @@
             <li class="nav-item mx-3"><a class="nav-link" href="/users/sign_up">Register</a></li>
             <li class="nav-item mx-3"><a class="nav-link" href="/users/sign_in">Login</a></li>
             <% end %>
+
           </ul>
         </div>
       </nav>
     </header>
 
     <main class="d-flex flex-row">
-      <!-- side pane (profile) -->
+
       <div class="d-flex flex-column" id="profilePane">
-        <div class="card" style="width: 20rem;">
-          <img class="card-img-top" src="#" alt="Card image cap">
+        <div class="card">
+          <%= image_tag 'profile-placeholder.jpg', class: "card-img-top", alt: "profile-placeholder.jpg" %>
           <div class="card-body">
             <h4 class="card-title">Card title</h4>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -54,12 +56,10 @@
         </div>
       </div>
 
-      <!-- overlay -->
       <div class="overlay"></div>
 
-      <!-- side pane (groups) GET CSS TO WORK-->
-      <!-- <div class="d-flex flex-column" id="groupPane">
-        <div class="card" style="width: 20rem;">
+      <div class="d-flex flex-column hidden" id="groupPane">
+        <div class="card">
           <div class="card-body">
             <h4 class="card-title">Card title</h4>
           </div>
@@ -69,31 +69,38 @@
             <li class="list-group-item">Vestibulum at eros</li>
           </ul>
         </div>
-      </div> -->
+      </div>
 
-      <!-- flash messages -->
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <div class="d-flex flex-column" id="contentPane">
 
-      <!-- <p class="navbar-text pull-right">
-      <% if user_signed_in? %>
-        Logged in as <strong><%= current_user.email %></strong>. -->
-        <!-- <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> | -->
-        <!-- <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-      <% else %>
-        <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-        <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-      <% end %>
-      </p> -->
+        <div class="d-flex flex-column" id="topPane">
+          <div class="d-flex flex-column" id="alerts">
+            <p class="notice"><%= notice %></p>
+            <p class="alert"><%= alert %></p>
+          </div>
+          <%= yield %>
+        </div>
 
-      <div class="d-flex flex-column py-2">
-        <%= yield %>
+
+        <div class="d-flex flex-column" id="bottomPane">
+          <div class="card">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Cras justo odio</li>
+              <li class="list-group-item">Dapibus ac facilisis in</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+          </div>
+        </div>
+
       </div>
     </main>
 
     <footer>
 
     </footer>
-
+    <%= stylesheet_link_tag "style" %>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtls_8SnwncIqfBSaWIrrMEf7_7klTcxY&callback=initMap">
+    </script>
   </body>
 </html>

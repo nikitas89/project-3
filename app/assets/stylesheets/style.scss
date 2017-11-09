@@ -1,0 +1,66 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  // border: 1px solid green;
+}
+
+main {
+  height: 100%;
+}
+
+#profilePane {
+  width: 25%;
+  height: 100%;
+  overflow-y: scroll;
+  // border: 1px solid blue;
+}
+
+#groupPane {
+  width: 25%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#contentPane {
+  height: 100%;
+  width: 75%;
+  // border: 1px solid red;
+}
+
+#topPane {
+  height: 75%;
+  width: 100%;
+
+}
+
+#bottomPane {
+  height: 25%;
+  width: 100%;
+  overflow-y: scroll;
+  // border: 1px solid cyan;
+}
+
+#alerts {
+  height: 15%;
+  width: 100%;
+  overflow-y: scroll;
+  // border: 1px solid magenta;
+}
+
+#content {
+  height: 85%;
+  width: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
