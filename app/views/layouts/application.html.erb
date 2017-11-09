@@ -11,14 +11,14 @@
   <body class="d-flex flex-column">
     <header>
       <nav class="d-flex justify-content-between navbar navbar-dark bg-dark">
-        <!-- hamburger icon and brand (left side) -->
+
         <div>
           <button class="navbar-toggler" id="navbarSideButton" type="button">
             <span class="navbar-toggler-icon"></span>
           </button>
           <a class="navbar-brand px-3" href="/">Convene</a>
         </div>
-        <!-- register and login (right side) -->
+
         <div>
           <ul class="d-flex flex-row navbar-nav">
             <li class="nav-item px-3"><a class="nav-link" href="/users/sign_up">Register</a></li>
@@ -29,7 +29,7 @@
     </header>
 
     <main class="d-flex flex-row">
-      <!-- side pane (profile) -->
+
       <div class="d-flex flex-column" id="profilePane">
         <div class="card">
           <%= image_tag 'profile-placeholder.jpg', class: "card-img-top", alt: "profile-placeholder.jpg" %>
@@ -49,11 +49,9 @@
         </div>
       </div>
 
-      <!-- overlay -->
       <div class="overlay"></div>
 
-      <!-- side pane (groups) -->
-      <div class="d-flex flex-column hide-pane" id="groupPane">
+      <div class="d-flex flex-column hidden" id="groupPane">
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Card title</h4>
@@ -66,9 +64,8 @@
         </div>
       </div>
 
-      <!-- main content -->
       <div class="d-flex flex-column" id="contentPane">
-        <!-- flash messages -->
+
         <div class="d-flex flex-column" id="topPane">
           <div class="d-flex flex-column" id="alerts">
             <p class="notice"><%= notice %></p>
@@ -87,12 +84,14 @@
           </div>
         </div>
       </div>
-
     </main>
 
     <footer>
 
     </footer>
     <%= stylesheet_link_tag "style" %>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtls_8SnwncIqfBSaWIrrMEf7_7klTcxY&callback=initMap">
+    </script>
   </body>
 </html>

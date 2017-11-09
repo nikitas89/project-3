@@ -45,9 +45,22 @@ main {
 }
 
 #alerts {
+  height: 15%;
+  width: 100%;
+  overflow-y: scroll;
   // border: 1px solid magenta;
 }
 
-.hide-pane {
+#content {
+  height: 85%;
+  width: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.hidden {
   display: none !important;
 }
