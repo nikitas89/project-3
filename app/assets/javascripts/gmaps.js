@@ -1,20 +1,21 @@
 // script for google maps
-var map, infoWindow, restoInfoWindow;
+
+// creating variables
+var map, userInfoWindow, restoInfoWindow, currentPosMarker;
+
 // initialise map
 function initMap() {
   // defaultPos set to GA
   var defaultPosition = new google.maps.LatLng(1.3077785,103.832118);
-  // checked
 
   // setting default location if current user location is not found
   map = new google.maps.Map(document.getElementById('map'), {
     center: defaultPosition,
     zoom: 18
   });
-  // checked
 
-  // initialise infowindow
-  infoWindow = new google.maps.InfoWindow;
+  // initialise infowindow and setting information
+  userInfoWindow = new google.maps.InfoWindow;
 
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
@@ -24,13 +25,31 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      // checked
 
       // set current map pos since current user location is found
       map = new google.maps.Map(document.getElementById('map'), {
         center: currentPos,
         zoom: 18
       });
+
+      // create marker for current user position
+      currentPosMarker = new google.maps.Marker({
+        position: currentPos,
+        title:'Current location'
+      });
+      // adding marker to map
+      currentPosMarker.setMap(map);
+      // adding infowindow to current user location marker
+      google.maps.event.addListener(currentPosMarker, 'click', function() {
+        userInfoWindow.setContent('Current location');
+        userInfoWindow.open(map, this);
+      });
+
+      // // setting current user position infowindow
+      // currentPosMarker.setPosition(currentPos); // set position of infowindow
+      // currentPosMarker.setContent('Current location'); // set content of infowindow
+      // currentPosMarker.open(map); // open map with location in infowindow
+
 
       // create request object
       var request = {
@@ -39,17 +58,16 @@ function initMap() {
         type: ['restaurant'],
         openNow: true
       };
-      // checked
 
-      infoWindow.setPosition(currentPos); // set position of infowindow
-      infoWindow.setContent('Current location'); // set content of infowindow
 
+      // set restaurant infowindow
       restoInfoWindow = new google.maps.InfoWindow();
+
       // searching nearby restaurants with currentPos
       service = new google.maps.places.PlacesService(map);
       service.nearbySearch(request, callback);
 
-      infoWindow.open(map); // open map with location in infowindow
+      // setting positon of map
       map.setCenter(currentPos);
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -70,17 +88,17 @@ function callback(results, status) {
 }
 
 function createMarker(place) {
-        var placeLoc = place.geometry.location;
-        var marker = new google.maps.Marker({
-          map: map,
-          position: place.geometry.location
-        });
+  var placeLoc = place.geometry.location;
+  var marker = new google.maps.Marker({
+    map: map,
+    position: place.geometry.location
+  });
 
-        google.maps.event.addListener(marker, 'click', function() {
-          restoInfoWindow.setContent(place.name);
-          restoInfoWindow.open(map, this);
-        });
-      }
+  google.maps.event.addListener(marker, 'click', function() {
+    restoInfoWindow.setContent(place.name);
+    restoInfoWindow.open(map, this);
+  });
+}
 
 function handleLocationError(browserHasGeolocation, infoWindow, currentPos) {
   infoWindow.setPosition(currentPos);
