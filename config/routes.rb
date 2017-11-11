@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   get 'welcome/index'
   root :to => "welcome#index"
 
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :users, only: [:index, :show, :update, :destroy]
-  resources :groups
+  resources :groups, only: [:index, :show, :update, :destroy, :add, :join, :edit, :create, :new]
+  get "/groups/:id/add" => "groups#add"
+  post "/groups/:id" => "groups#join"
+
 end
