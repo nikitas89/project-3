@@ -32,10 +32,17 @@ function initMap() {
         zoom: 18
       });
 
-      // create marker for current user position
+      // create custom marker for current user position
+      var icon = {
+        url: "<%= asset_path('pin-two.png') %>", // url
+        scaledSize: new google.maps.Size(30, 50), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+      };
+
       currentPosMarker = new google.maps.Marker({
         position: currentPos,
-        title:'Current location'
+        icon: icon
       });
       // adding marker to map
       currentPosMarker.setMap(map);
