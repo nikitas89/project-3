@@ -1,0 +1,39 @@
+<!-- <h6>Group#index</h6>
+<p>Find me in app/views/group/index.html.erb</p> -->
+<%#= link_to "New", new_group_path %>
+<div class="col-md-3 gp_noti">
+<div class="notifications">Notifications</div>
+</div>
+
+<!-- <div class="alert alert-success alert-dismissible fade show notifications" role="alert">
+ <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   <span aria-hidden="true">&times;</span>
+ </button>
+ <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+</div> -->
+
+<div class="col-md-5">
+<%=  form_for  @group do |f| %>
+<%= f.text_field :name%>
+<%= f.submit("create group") %>
+<% end %>
+
+<div class="">
+<!-- use ajax to real time update the group names -->
+  <% @groups.each do |group| %>
+  <%gp_name=group.name%>
+    <div>
+    <%=gp_name %>
+      <%= link_to "Delete", group_path(group), method: :delete, remote:true %>
+      <%= link_to "Edit", edit_group_path(group) %>
+
+        <% members = group.users.all %>
+      <p>  Group members:
+        <% members.each do |mbr| %>
+            <%= - mbr.name %>
+        <% end%></p>
+      </div>
+    <% end%>
+
+  </div>
+</div>

@@ -1,0 +1,8 @@
+
+
+<h4>Join group</h4>
+
+<h1><%= @group.name %></h1>
+<%=  link_to "Join", group_path(@group), method: :post, remote:true %>
+
+<%= link_to 'Back', groups_path %>

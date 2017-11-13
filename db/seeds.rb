@@ -13,3 +13,8 @@
     password: 'test123'
   )
 end
+5.times do
+  new_group = Group.new
+  new_group.name = Faker::StarWars.specie
+  new_group.save
+end

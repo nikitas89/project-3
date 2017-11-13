@@ -19,10 +19,17 @@
           <a class="navbar-brand px-3" href="/">Convene</a>
         </div>
 
+
+        <!-- register and login (right side) -->
         <div>
           <ul class="d-flex flex-row navbar-nav">
-            <li class="nav-item px-3"><a class="nav-link" href="/users/sign_up">Register</a></li>
-            <li class="nav-item px-3"><a class="nav-link" href="/users/sign_in">Login</a></li>
+            <% if user_signed_in? %>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'nav-item mx-3 nav-link'  %>
+            <% else %>
+            <li class="nav-item mx-3"><a class="nav-link" href="/users/sign_up">Register</a></li>
+            <li class="nav-item mx-3"><a class="nav-link" href="/users/sign_in">Login</a></li>
+            <% end %>
+
           </ul>
         </div>
       </nav>
