@@ -21,44 +21,44 @@ class GroupsController < ApplicationController
   def create
     group = current_user.groups.create(params.require(:group).permit(:name))
     if group.save
-    # redirect_to messages_url
-    # ActionCable.server.broadcast 'chat_channel',
-    #                              content:  group.name,
-    #                              username: current_user.name
-                                 # customise to group invite etc. group ID.
     else
       redirect_to groups_path
     end
-    # redirect_to root_path
   end
 
   def edit
     @group = Group.find(params[:id])
+    #add the action cable...
   end
 
   def destroy
     #broadcast changes to group program js /FE
-
     @deleted_group = Group.find(params[:id])
     @deleted_group_users = @deleted_group.users.all
-
+    @deleted_group_user_ids = []
+    @deleted_group_users.each do |user|
+      @deleted_group_user_ids << user.id
+    end
     @deleted_group_name = @deleted_group.name
+    # @deleted_group_id = @deleted_group.id
+    # puts "@deleted_group_id:"
+    # puts @deleted_group_id
     @deleted_group.destroy
-    # Group.destroy(params[:id])
+
 # broadcast the deleted group and which user did it.
     # ActionCable.server.broadcast 'chat_channel',
     #                                content:  @deleted_group_name,
     #                                username: current_user.name,
     #                                status: 2
-    @deleted_group_users.each do |user|
-      # UserChannel.broadcast_to(user, { notification: 'Test message' })
-      ActionCable.server.broadcast "chat_channel_#{user.id}",
+    @deleted_group_user_ids.each do |user|
+      puts "user id is inside : @deleted_group_user_ids"
+      puts user
+      ActionCable.server.broadcast "chat_channel_#{user}",
                                     content:  @deleted_group_name,
                                     username: current_user.name,
                                     status: 2,
                                     mention: true,
                                     notification: 'Test message'
-
     end
     # redirect_back fallback_location: root_path
     # redirect_to groups_path
@@ -67,6 +67,15 @@ class GroupsController < ApplicationController
   def update
     @group = Group.find(params[:id])
     @group.update(params.require(:group).permit(:name))
+    @group_users = @group.users.all
+    @group_users.each do |user|
+      ActionCable.server.broadcast "chat_channel_#{user.id}",
+                                  content:  @group.name,
+                                  username: current_user.name,
+                                  status: 3,
+                                  mention: true,
+                                  notification: 'Test message'
+    end
     redirect_to groups_path
   end
 
@@ -85,12 +94,15 @@ class GroupsController < ApplicationController
       redirect_to groups_path
       # add flash message "You are already in this group"
     else
-      current_user.groups << Group.find(params[:id])
-      # UserChannel.broadcast_to(user, { notification: 'Test message' })
-      ActionCable.server.broadcast 'chat_channel',
-                                   content:  current_user.groups.last,
-                                   username: current_user.name,
-                                   status: 1
+      @group = Group.find(params[:id])
+      current_user.groups << @group
+      @group_users = @group.users.all
+      @group_users.each do |user|
+        ActionCable.server.broadcast "chat_channel_#{user.id}",
+                                    content:  @group.name,
+                                    username: current_user.name,
+                                    status: 1
+      end
       redirect_to groups_path
     end
   end #end join
@@ -98,17 +110,23 @@ class GroupsController < ApplicationController
   def locations
     #try with hardcoded group
     # @group = current_user.groups.find(params[:id])
-    @group = current_user.groups.find(25)
+    @group = current_user.groups.find(35)
     #use scopes in the user model.
     @group_users = @group.users.all
     @group_locations = []
     @group_users.each do |user|
       if defined?(user.lat)
         @group_locations << { "lat"=>user.lat, "lng"=>user.lng }
+        #also avail over sockets
+        ActionCable.server.broadcast "chat_channel_#{user.id}",
+                                    location: { "lat"=>user.lat, "lng"=>user.lng }
       end #end if
     end #endeach
     puts @group_locations
     render 'new'
+    # view = ActionView::Base.new(ActionController::Base.view_paths, {})
+    # view.render(file: '/welcome/index.html.erb')
+    gon.group_locations = @group_locations
   end #end loc
 
 end

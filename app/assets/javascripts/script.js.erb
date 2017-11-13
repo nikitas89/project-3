@@ -22,6 +22,9 @@ function initMap() {
       //activate form with post request to ctrl
       sendPos(pos)
 
+      //enable this method to get group locations.
+      groupLocations()
+
       infoWindow.setPosition(pos);
       infoWindow.setContent('Location found.');
       infoWindow.open(map);
@@ -52,6 +55,7 @@ function sendPos(position){
   [{'lat': 1.3306435,'lng': 103.9060051},
   {'lat': 1.2965676,'lng': 103.8499297},
   {'lat': 1.3659974,'lng': 103.8533953}]
+
   var position = locList[Math.round(Math.random()*2)]
   //--------End DELETE THIS FOR PROD
   // console.log('got location '+position);
@@ -61,10 +65,16 @@ function sendPos(position){
     type: 'post',
     url: "/user_location"
     // url: "/groups_locations"
-
   });
+}
+function groupLocations(){
+$.get( "/groups_locations" ).then(function(){
+  console.log(gon.group_locations)
+})
 }
 
 $(document).ready(function() {
   console.log('script.js loaded');
+  console.log(gon.group_locations);
+//if not appearing, check that group has been set, in groupscontrollers
 })
