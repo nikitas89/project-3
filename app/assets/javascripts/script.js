@@ -44,25 +44,27 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function sendPos(position){
-  //send random locations for dev purpose, mimic users at diff group_locations
-  console.log(position.lat);
-  console.log(position.lng);
+  // console.log(position.lat);
+  // console.log(position.lng);
+
+  //--------DELETE THIS FOR PROD send random locations for dev purpose, mimic users at diff group_locations
   var locList  =
   [{'lat': 1.3306435,'lng': 103.9060051},
   {'lat': 1.2965676,'lng': 103.8499297},
   {'lat': 1.3659974,'lng': 103.8533953}]
-  console.log('got location '+position);
   var position = locList[Math.round(Math.random()*2)]
+  //--------End DELETE THIS FOR PROD
+  // console.log('got location '+position);
   $.ajax({
     data: position,
     dataType: 'json',
     type: 'post',
-    url: "/groups_locations"
+    url: "/user_location"
+    // url: "/groups_locations"
+
   });
 }
 
 $(document).ready(function() {
   console.log('script.js loaded');
-
-
 })

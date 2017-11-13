@@ -103,15 +103,12 @@ class GroupsController < ApplicationController
     @group_users = @group.users.all
     @group_locations = []
     @group_users.each do |user|
-      # if defined?(user.params)
-      #check if current users' params are defined.
-        puts user.name
-        puts params
-        # add hard coded location to mimic multiple locations
-        @group_locations << { "lat"=>params[:lat], "lng"=>params[:lng] }
-      # end #end if
+      if defined?(user.lat)
+        @group_locations << { "lat"=>user.lat, "lng"=>user.lng }
+      end #end if
     end #endeach
     puts @group_locations
+    render 'new'
   end #end loc
 
 end
