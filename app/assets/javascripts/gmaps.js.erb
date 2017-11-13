@@ -6,12 +6,11 @@ var map, userInfoWindow, restoInfoWindow, currentPosMarker;
 // initialise map
 function initMap() {
   // defaultPos set to GA
-  var defaultPosition = new google.maps.LatLng(1.3077785,103.832118);
-
   // setting default location if current user location is not found
+  var defaultPosition = new google.maps.LatLng(1.3077785,103.832118);
   map = new google.maps.Map(document.getElementById('map'), {
     center: defaultPosition,
-    zoom: 18
+    zoom: 10
   });
 
   // initialise infowindow and setting information
@@ -32,14 +31,14 @@ function initMap() {
         zoom: 18
       });
 
-      // create custom marker for current user position
+      // create custom icon
       var icon = {
         url: "<%= asset_path('pin-two.png') %>", // url
-        scaledSize: new google.maps.Size(30, 50), // scaled size
+        scaledSize: new google.maps.Size(40, 60), // scaled size
         origin: new google.maps.Point(0,0), // origin
         anchor: new google.maps.Point(0, 0) // anchor
       };
-
+      // create marker using custom icon for current user position
       currentPosMarker = new google.maps.Marker({
         position: currentPos,
         icon: icon
