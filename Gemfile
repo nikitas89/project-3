@@ -4,7 +4,7 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
-
+gem 'json'
 gem 'pry'
 gem 'faker', :git => 'git://github.com/stympy/faker.git', :branch => 'master'
 gem 'bootstrap', '~> 4.0.0.beta2'

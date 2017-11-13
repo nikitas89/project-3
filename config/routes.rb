@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   resources :groups, only: [:index, :show, :update, :destroy, :add, :join, :edit, :create, :new]
   get "/groups/:id/add" => "groups#add"
   post "/groups/:id" => "groups#join"
+  post '/groups_locations/', to: 'groups#locations'
 
 end
