@@ -32,6 +32,7 @@ class GroupsController < ApplicationController
 
   def edit
     @group = Group.find(params[:id])
+    @groups = current_user.groups.all
   end
 
   def destroy
@@ -101,7 +102,7 @@ class GroupsController < ApplicationController
   end # end join
 
   def locations
-    # TODO send groups from front end
+    # TODO: send groups from front end
     # @group = current_user.groups.find(params[:id])
     @group = current_user.groups.find(35)
     @group_users = @group.users.all
