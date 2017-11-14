@@ -32,12 +32,16 @@
               <%= link_to "Convene", root_path, class:"navbar-brand" %>
             </li>
             <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to "Groups", groups_path, class:"nav-link", method:"get" %>
+            </li>
             <li class="nav-item ml-auto">
               <button class="nav-link btn btn-light" type="button" data-toggle="collapse" data-target="#profileDetails" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 Profile
               </button>
             </li>
             <div>
+
               <li class="nav-item">
                 <%= link_to "Logout", destroy_user_session_path, class:"nav-link", id:"logout", method:"delete" %>
               </li>
@@ -66,7 +70,7 @@
           </div>
           <% end %>
           <div class="d-flex flex-column col p-0" id="main">
-            <%= yield %>
+          <%= yield %>
           </div>
         </div>
       </div>

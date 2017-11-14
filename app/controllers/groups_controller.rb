@@ -19,16 +19,14 @@ class GroupsController < ApplicationController
   end
 
   def create
-
     group = current_user.groups.create(params.require(:group).permit(:name))
     if group.save
       # redirect_to messages_url
       ActionCable.server.broadcast 'chat_channel',
                                    content:  group.name,
                                    username: current_user.name
-    else
-      redirect_to groups_path
     end
+    redirect_to groups_path
     # redirect_to root_path
   end
 
@@ -46,19 +44,19 @@ class GroupsController < ApplicationController
       @deleted_group_user_ids << user.id
     end
     @deleted_group_name = @deleted_group.name
+    @deleted_group_id = @deleted_group.id
     @deleted_group.destroy
     @deleted_group_user_ids.each do |user|
-      puts 'user id is inside : @deleted_group_user_ids'
-      puts user
+      # puts 'user id is inside : @deleted_group_user_ids'
+      # puts user
       ActionCable.server.broadcast "chat_channel_#{user}",
+                                    id:@deleted_group_id,
                                    content:  @deleted_group_name,
                                    username: current_user.name,
-                                   status: 2,
-                                   mention: true,
-                                   notification: 'Test message'
+                                   status: 2
     end
-    redirect_back fallback_location: root_path
-    redirect_to groups_path
+    # redirect_to groups_path
+    # redirect_back fallback_location: root_path
   end
 
   def update
@@ -69,9 +67,7 @@ class GroupsController < ApplicationController
       ActionCable.server.broadcast "chat_channel_#{user.id}",
                                    content:  @group.name,
                                    username: current_user.name,
-                                   status: 3,
-                                   mention: true,
-                                   notification: 'Test message'
+                                   status: 3
     end
     redirect_to groups_path
   end
