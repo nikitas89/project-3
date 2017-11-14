@@ -19,8 +19,15 @@ class GroupsController < ApplicationController
 
   def create
     group = current_user.groups.create(params.require(:group).permit(:name))
-    group.save
-    redirect_to groups_path
+    if group.save
+      # redirect_to messages_url
+      ActionCable.server.broadcast 'chat_channel',
+                                   content:  group.name,
+                                   username: current_user.name
+    else
+      redirect_to groups_path
+    end
+    # redirect_to root_path
   end
 
   def edit
@@ -28,6 +35,7 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    # broadcast changes to group program js /FE
     @deleted_group = Group.find(params[:id])
     @deleted_group_users = @deleted_group.users.all
     @deleted_group_user_ids = []
