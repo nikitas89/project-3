@@ -4,12 +4,14 @@ module ApplicationCable
 
     def connect
       self.current_user = find_verified_user
+      logger.add_tags 'ActionCable', current_user.name
+
     end
 
     private
       def find_verified_user
-        if defined? current_user 
-          current_user
+        if verified_user = env['warden'].user
+          verified_user
         else
           reject_unauthorized_connection
         end
