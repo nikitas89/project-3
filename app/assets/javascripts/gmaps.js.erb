@@ -111,3 +111,29 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentPos) {
     'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
 }
+function sendPos(position){
+  // console.log(position.lat);
+  // console.log(position.lng);
+
+  //--------DELETE THIS FOR PROD send random locations for dev purpose, mimic users at diff group_locations
+  var locList  =
+  [{'lat': 1.3306435,'lng': 103.9060051},
+  {'lat': 1.2965676,'lng': 103.8499297},
+  {'lat': 1.3659974,'lng': 103.8533953}]
+
+  var position = locList[Math.round(Math.random()*2)]
+  //--------End DELETE THIS FOR PROD
+  // console.log('got location '+position);
+  $.ajax({
+    data: position,
+    dataType: 'json',
+    type: 'post',
+    url: "/user_location"
+    // url: "/groups_locations"
+  });
+}
+function groupLocations(){
+$.get( "/groups_locations" ).then(function(){
+  console.log(gon.group_locations)
+})
+}
