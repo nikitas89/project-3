@@ -10,75 +10,62 @@
 
   <body class="d-flex flex-column">
     <header>
-      <nav class="d-flex justify-content-between navbar navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <%# <button class="navbar-brand bg-light" type="button" style="border:none;">
+          Profile
+        </button>
+        %>
 
-        <div>
-          <button class="navbar-toggler" id="navbarSideButton" type="button">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <a class="navbar-brand px-3" href="/">Convene</a>
-        </div>
+        <% if user_signed_in? %>
 
+        <% end %>
 
-        <!-- register and login (right side) -->
-        <div>
-          <ul class="d-flex flex-row navbar-nav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarElements" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarElements">
+          <ul class="navbar-nav mr-auto container-fluid">
+            <li class="nav-item mr-auto">
+              <%= link_to "Convene", root_path, class:"navbar-brand" %>
+            </li>
             <% if user_signed_in? %>
-            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'nav-item mx-3 nav-link'  %>
-            <% else %>
-            <li class="nav-item mx-3"><a class="nav-link" href="/users/sign_up">Register</a></li>
-            <li class="nav-item mx-3"><a class="nav-link" href="/users/sign_in">Login</a></li>
+            <li class="nav-item ml-auto">
+              <button class="nav-link btn btn-light" type="button" data-toggle="collapse" data-target="#profileDetails" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                Profile
+              </button>
+            </li>
+            <div>
+              <li class="nav-item">
+                <%= link_to "Logout", destroy_user_session_path, class:"nav-link", id:"logout", method:"delete" %>
+              </li>
+              <% else %>
+              <li class="nav-item">
+                <%= link_to "Register", new_user_registration_path, class:"nav-link", id:"register" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Login", new_user_session_path, class:"nav-link", id:"login" %>
+              </li>
+            </div>
             <% end %>
           </ul>
         </div>
-
       </nav>
     </header>
 
-    <main class="d-flex flex-row">
+    <main class="d-flex flex-column">
+      <div class="container-fluid">
+        <div class="row">
+          <% if user_signed_in? %>
+          <div class="d-flex flex-column col-3 p-0" id="groups">
+            <%= render "layouts/profile" %>
 
-      <div class="d-flex flex-column" id="profilePane">
-        <div class="card">
-          <%= image_tag 'profile-placeholder.jpg', class: "card-img-top", alt: "profile-placeholder.jpg" %>
-          <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <%= render "layouts/groups" %>
           </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-          </ul>
-          <div class="card-body">
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+          <% end %>
+          <div class="d-flex flex-column col p-0" id="main">
+            <%= yield %>
           </div>
-        </div>
-      </div>
-
-      <div class="overlay"></div>
-
-      <div class="d-flex flex-column hidden" id="groupPane">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="d-flex flex-column" id="contentPane">
-
-        <div class="d-flex flex-column" id="topPane">
-          <div class="d-flex flex-column" id="alerts">
-            <p class="notice"><%= notice %></p>
-            <p class="alert"><%= alert %></p>
-          </div>
-          <%= yield %>
         </div>
       </div>
     </main>
@@ -88,7 +75,7 @@
     </footer>
     <%= stylesheet_link_tag "style" %>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtls_8SnwncIqfBSaWIrrMEf7_7klTcxY&callback=initMap&libraries=places">
+    src="https://maps.googleapis.com/maps/api/js?key=<% ENV["G_MAP_API_KEY"]%>&callback=initMap&libraries=places">
     </script>
   </body>
 </html>

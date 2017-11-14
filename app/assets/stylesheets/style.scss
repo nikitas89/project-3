@@ -1,66 +1,19 @@
 html, body {
-  height: 100%;
-  width: 100%;
-  min-height: 100%;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  // border: 1px solid green;
-}
-
-main {
+main, .container-fluid, .row, #groups, #main {
   height: 100%;
 }
 
-#profilePane {
-  width: 20%;
-  height: 100%;
+#groups {
   overflow-y: scroll;
-  // border: 1px solid blue;
-}
-
-#groupPane {
-  width: 20%;
-  height: 100%;
-  overflow-y: scroll;
-}
-
-#contentPane {
-  height: 100%;
-  width: 80%;
-  // border: 1px solid red;
-}
-
-#topPane {
-  height: 100%;
-  width: 100%;
-
-}
-
-// #bottomPane {
-//   height: 25%;
-//   width: 100%;
-//   overflow-y: scroll;
-//   // border: 1px solid cyan;
-// }
-
-#alerts {
-  height: 10%;
-  width: 100%;
-  overflow-y: scroll;
-  // border: 1px solid magenta;
-}
-
-#content {
-  height: 90%;
-  width: 100%;
 }
 
 #map {
   height: 100%;
   width: 100%;
-}
-
-.hidden {
-  display: none !important;
 }

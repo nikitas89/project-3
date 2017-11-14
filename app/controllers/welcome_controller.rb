@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
   def index
-    # api_key = ENV[G_MAP_API_KEY]
+    @groups = current_user.groups.all if user_signed_in?
   end
 end

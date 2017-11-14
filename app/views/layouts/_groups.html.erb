@@ -1,0 +1,23 @@
+<div class="card" id="groupDetails">
+  <ul class="list-group list-group-flush">
+    <% @groups.each do |group| %>
+    <li class="list-group-item bg-light">
+      <a class="nav-link text-secondary" data-toggle="collapse" href="#<%= "#{group.id}" %>" aria-expanded="false" aria-controls="<%= "#{group.id}" %>">
+        Group Name: <%= group.name %>
+      </a>
+      <div class="collapse" id="<%= "#{group.id}" %>">
+        <div class="card">
+          <ul>
+            <li class="list-group-item">
+              test1
+            </li>
+            <li class="list-group-item">
+              test2
+            </li>
+          </ul>
+        </div>
+      </div>
+    </li>
+    <% end %>
+  </ul>
+</div>
