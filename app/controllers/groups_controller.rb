@@ -11,6 +11,7 @@ class GroupsController < ApplicationController
   def show
     @group = current_user.groups.find(params[:id])
     @group_users = @group.users.all
+    @groups = current_user.groups.all
   end
 
   def new
@@ -18,6 +19,7 @@ class GroupsController < ApplicationController
   end
 
   def create
+
     group = current_user.groups.create(params.require(:group).permit(:name))
     if group.save
       # redirect_to messages_url
@@ -75,6 +77,7 @@ class GroupsController < ApplicationController
   end
 
   def add
+    @groups = current_user.groups.all
     if Group.exists?(params[:id])
       @group = Group.find(params[:id])
     else
