@@ -1,6 +1,7 @@
 <!-- <h6>Group#index</h6>
 <p>Find me in app/views/group/index.html.erb</p> -->
 <%#= link_to "New", new_group_path %>
+<h5>Hi <%= current_user.name %></h5>
 <div class="col-md-12">
 <%=  form_for  @group do |f| %>
 <%= f.text_field :name%>
@@ -8,6 +9,7 @@
 <% end %>
 
 <div class="">
+  <h5>Your Groups:</h5>
 <!-- use ajax to real time update the group names -->
   <% @groups.each do |group| %>
   <%gp_name=group.name%>
@@ -15,29 +17,29 @@
   <%gp_name=gp_name.chomp%>
     <div id="<%=gp_name%>">
       <%=gp_name%>
-    <%= link_to gp_name, group_path(group) %>
+    <%= link_to "View", group_path(group) %>
       <%= link_to "Delete", group_path(group), method: :delete, remote:true %>
       <%= link_to "Edit", edit_group_path(group) %>
       <div class="shareToggle" data-id="<%="#{gp_id}"%>">
-        Get others to join:
+        Get others to join
     </div>
 
       <div id="" class="shareGroup <%="#{gp_id}"%>">
       Just copy this link and share with your invitees:
-        <a href="http://localhost:3000/groups/<%="#{gp_id}"%>/add">"http://localhost:3000/groups/<%="#{gp_id}"%>/add"</a>
+        <a href="http://localhost:3000/groups/<%="#{gp_id}"%>/add">http://localhost:3000/groups/<%="#{gp_id}"%>/add</a>
         <%= social_share_button_tag(gp_name, :url => "http://localhost:3000/groups/#{gp_id}/add") %>
       </div>
         <% members = group.users.all %>
-      <p>  Group members:
+      <p>  Group members:<br/>
         <% members.each do |mbr| %>
-            <%=  mbr.name %>
+            <%=  mbr.name %> <br/>
         <% end%></p>
       </div>
     <% end%>
 
   </div>
-  <div class="col-md-12 gp_noti notifications">Notifications
+  <div class=" gp_noti notifications"><h5>Notifications:</h5>
   <!-- <div class="notifications">Notifications</div> -->
-  <pre><%= current_user.id %></pre>
+
   </div>
 </div>
