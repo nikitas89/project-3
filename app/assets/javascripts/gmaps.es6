@@ -6,88 +6,132 @@ var map, userInfoWindow, restoInfoWindow, currentPosMarker, nearbyRestaurantsLis
 function initMap() {
   // defaultPos set to GA
   // setting default location if current user location is not found
-  var defaultPosition = new google.maps.LatLng(1.3077785,103.832118);
+  var defaultPosition = new google.maps.LatLng(1.3077785, 103.832118);
   map = new google.maps.Map(document.getElementById('map'), {
     center: defaultPosition,
     zoom: 10,
-    styles: [
-      {elementType: 'geometry', stylers: [{color: '#75808e'}]},
-      {elementType: 'labels.text.stroke', stylers: [{color: '#454b54'}]},
-      {elementType: 'labels.text.fill', stylers: [{color: '#b1c8eb'}]},
+    styles: [{
+        elementType: 'geometry',
+        stylers: [{
+          color: '#75808e'
+        }]
+      },
+      {
+        elementType: 'labels.text.stroke',
+        stylers: [{
+          color: '#454b54'
+        }]
+      },
+      {
+        elementType: 'labels.text.fill',
+        stylers: [{
+          color: '#b1c8eb'
+        }]
+      },
       {
         featureType: 'administrative.locality',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#b1c8eb'}]
+        stylers: [{
+          color: '#b1c8eb'
+        }]
       },
       {
         featureType: 'poi',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#b1c8eb'}]
+        stylers: [{
+          color: '#b1c8eb'
+        }]
       },
       {
         featureType: 'poi.park',
         elementType: 'geometry',
-        stylers: [{color: '#7c9977'}]
+        stylers: [{
+          color: '#7c9977'
+        }]
       },
       {
         featureType: 'poi.park',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#b1c8eb'}]
+        stylers: [{
+          color: '#b1c8eb'
+        }]
       },
       {
         featureType: 'road',
         elementType: 'geometry',
-        stylers: [{color: '#afb7c2'}]
+        stylers: [{
+          color: '#afb7c2'
+        }]
       },
       {
         featureType: 'road',
         elementType: 'geometry.stroke',
-        stylers: [{color: '#afb7c2'}]
+        stylers: [{
+          color: '#afb7c2'
+        }]
       },
       {
         featureType: 'road',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#afb7c2'}]
+        stylers: [{
+          color: '#afb7c2'
+        }]
       },
       {
         featureType: 'road.highway',
         elementType: 'geometry',
-        stylers: [{color: '#465d7a'}]
+        stylers: [{
+          color: '#465d7a'
+        }]
       },
       {
         featureType: 'road.highway',
         elementType: 'geometry.stroke',
-        stylers: [{color: '#1f2835'}]
+        stylers: [{
+          color: '#1f2835'
+        }]
       },
       {
         featureType: 'road.highway',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#b1c8eb'}]
+        stylers: [{
+          color: '#b1c8eb'
+        }]
       },
       {
         featureType: 'transit',
         elementType: 'geometry',
-        stylers: [{color: '#465d7a'}]
+        stylers: [{
+          color: '#465d7a'
+        }]
       },
       {
         featureType: 'transit.station',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#b1c8eb'}]
+        stylers: [{
+          color: '#b1c8eb'
+        }]
       },
       {
         featureType: 'water',
         elementType: 'geometry',
-        stylers: [{color: '#45628f'}]
+        stylers: [{
+          color: '#45628f'
+        }]
       },
       {
         featureType: 'water',
         elementType: 'labels.text.fill',
-        stylers: [{color: '#b1c8eb'}]
+        stylers: [{
+          color: '#b1c8eb'
+        }]
       },
       {
         featureType: 'water',
         elementType: 'labels.text.stroke',
-        stylers: [{color: '#17263c'}]
+        stylers: [{
+          color: '#17263c'
+        }]
       }
     ]
   });
@@ -114,7 +158,7 @@ function initMap() {
         userInfoWindow.open(map, this);
       });
       // getting nearby restaurants if user not logged in
-      if(!gon.current_user) {
+      if (!gon.current_user) {
         getNearbyRestaurants(currentPos);
       } else {
         // ---------------- TO-DO: GET USER LOCATIONS FROM ACTIONCABLE (WHEN GRP IS CLICKED)
@@ -147,7 +191,7 @@ function getNearbyRestaurants(location) {
   // create new restaurant infowindow
   restoInfoWindow = new google.maps.InfoWindow();
   // searching nearby restaurants with currentPos
-  service = new google.maps.places.PlacesService(map);
+  var service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, callback);
 }
 
@@ -211,16 +255,25 @@ function createMarker(place) {
 
 function getCenterLocation(position, map) {
   //--------DELETE THIS FOR PROD send random locations for dev purpose, mimic users at diff group_locations
-  var userPositionsList  =
-  [{'lat': 1.3306435,'lng': 103.9060051},
-   {'lat': 1.2965676,'lng': 103.8499297},
-   {'lat': 1.3659974,'lng': 103.8533953}]
+  var userPositionsList = [{
+      'lat': 1.3306435,
+      'lng': 103.9060051
+    },
+    {
+      'lat': 1.2965676,
+      'lng': 103.8499297
+    },
+    {
+      'lat': 1.3659974,
+      'lng': 103.8533953
+    }
+  ]
   // push position into userPositionsList array
   userPositionsList.push(position);
   // create bounds object
   var bound = new google.maps.LatLngBounds();
   // extend bounds using each positon object in array
-  userPositionsList.forEach(userPosition => bound.extend( new google.maps.LatLng(userPosition)));
+  userPositionsList.forEach(userPosition => bound.extend(new google.maps.LatLng(userPosition)));
   // using bounds object, getCenter
   var centerLocation = bound.getCenter();
   // console.log('lat: ',centerLocation.lat(),'lng: ', centerLocation.lng());
@@ -241,10 +294,10 @@ function getCenterLocation(position, map) {
 function customMarker(location) {
   // create a custom icon
   var icon = {
-    url: "<%= asset_path('pin-two.png') %>",
-    scaledSize: new google.maps.Size(25,40),
-    origin: new google.maps.Point(0,0),
-    anchor: new google.maps.Point(0,0)
+    url: "/assets/pin-two.png",
+    scaledSize: new google.maps.Size(25, 40),
+    origin: new google.maps.Point(0, 0),
+    anchor: new google.maps.Point(0, 0)
   };
   // create marker using custom icon
   var newCustomMarker = new google.maps.Marker({
@@ -264,5 +317,5 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentPos) {
 }
 
 function groupLocations() {
-  $.get("/groups_locations").then( () => console.log(gon.group_locations) )
+  $.get("/groups_locations").then(() => console.log(gon.group_locations))
 }
