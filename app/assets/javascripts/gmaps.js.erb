@@ -177,6 +177,17 @@ function randomRestaurant() {
       url: "/selected_restaurant"
     });
   }
+
+  nearbyRestaurantsList.forEach((restaurant) => {
+    console.log('test');
+    // target restaurantsList pane
+    var restaurantsList = document.getElementById('restaurantsList');
+    // create new li element
+    var listItem = document.createElement("li");
+    listItem.innerHTML = restaurant.name;
+    listItem.setAttribute("class", "list-group-item");
+    restaurantsList.appendChild(listItem);
+  })
   // console.log('random restaurant: ', nearbyRestaurantsList[randomIndex]);
 }
 
