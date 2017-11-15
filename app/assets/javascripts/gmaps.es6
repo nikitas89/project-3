@@ -230,7 +230,7 @@ function getCenterLocation(position, map) {
 function customMarker(location) {
   // create a custom icon
   var icon = {
-    url: "<%= asset_path('pin-two.png') %>",
+    // url: "<%= asset_path('pin-two.png') %>",
     scaledSize: new google.maps.Size(25,40),
     origin: new google.maps.Point(0,0),
     anchor: new google.maps.Point(0,0)
