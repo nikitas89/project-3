@@ -120,6 +120,8 @@ def invite
   redirect_to group_path(group)
 end
 
+  
+
 
   def locations
     # TODO: send groups from front end

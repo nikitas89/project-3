@@ -36,7 +36,7 @@ App.chat = App.cable.subscriptions.create("ChatChannel", {
     //remove the grp name from show
     console.log('data.content', data.content, typeof data.content);
     data.status === 3 ? $('div.notifications').append(htmlUpdate) : ""
-    // console.log(data.location);s
+    console.log(data.location)
   }
 });
 
