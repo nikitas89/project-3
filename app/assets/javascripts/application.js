@@ -18,3 +18,4 @@
 //= require bootstrap-sprockets
 //= require_tree .
 //= require gmaps
+//= require social-share-button

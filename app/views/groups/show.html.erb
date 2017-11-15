@@ -1,8 +1,41 @@
-<h1>Groups#show</h1>
-<p>Find me in app/views/groups/show.html.erb</p>
+<!-- <h1>Groups#show</h1> -->
+<!-- <p>Find me in app/views/groups/show.html.erb</p> -->
 <h1><%= @group.name %></h1>
-
+<%gp_id=@group.id%>
+<div>Members:
+<div>
 <% @group_users.each do |usr| %>
   <%=usr.name %>
   <br/>
 <% end%>
+</div>
+</div>
+
+
+<div id="" >
+  <h3>Sharing</h3>
+<p>Just copy this link and share with your invitees:</p>
+<p>
+  <a href="http://localhost:3000/groups/<%="#{gp_id}"%>/add">http://localhost:3000/groups/<%="#{gp_id}"%>/add</a>
+</p>
+  <%= social_share_button_tag(@group.name, :url => "http://localhost:3000/groups/#{gp_id}/add") %>
+</div>
+
+<div id="" >
+  <h3>Invite</h3>
+<p>
+
+  <%=  form_for @group, method: :post, url: invite_path  do |f| %>
+  <!-- html form elements -->
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :name %>
+
+    <%= f.fields_for :users do |group_user| %>
+      <%= group_user.label :email %><br/>
+      <%= group_user.email_field :email %>
+    <% end %>
+    <%= f.submit("invite user") %>
+  <% end %>
+</p>
+
+</div>
