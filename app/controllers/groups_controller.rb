@@ -122,7 +122,7 @@ end
 
 
   def locations
-    # TODO send groups from front end
+    # TODO: send groups from front end
     # @group = current_user.groups.find(params[:id])
     @group = current_user.groups.find(35)
     @group_users = @group.users.all

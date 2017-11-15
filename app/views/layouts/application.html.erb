@@ -63,9 +63,8 @@
       <div class="container-fluid">
         <div class="row">
           <% if user_signed_in? %>
-          <div class="d-flex flex-column col-3 p-0" id="groups">
+          <div class="d-flex flex-column col-3 p-0 bg-light" id="groups">
             <%= render "layouts/profile" %>
-
             <%= render "layouts/groups" %>
           </div>
           <% end %>
