@@ -17,3 +17,16 @@ main, .container-fluid, .row, #groups, #main {
   height: 100%;
   width: 100%;
 }
+
+#newRestaurant {
+  position: absolute;
+  bottom: 22px;
+  right: 50px;
+}
+
+
+#restaurantsList {
+  position: absolute;
+  top: 22px;
+  right: 50px;
+}

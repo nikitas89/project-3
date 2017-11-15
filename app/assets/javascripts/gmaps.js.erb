@@ -2,7 +2,6 @@
 
 // creating variables
 var map, userInfoWindow, restoInfoWindow, currentPosMarker, nearbyRestaurantsList;
-
 // initialise map
 function initMap() {
   // defaultPos set to GA
@@ -115,15 +114,16 @@ function initMap() {
         userInfoWindow.open(map, this);
       });
       // getting nearby restaurants if user not logged in
-      if(!gon.current_user) getNearbyRestaurants(currentPos);
-      else {
+      if(!gon.current_user) {
+        getNearbyRestaurants(currentPos);
+      } else {
         // ---------------- TO-DO: GET USER LOCATIONS FROM ACTIONCABLE (WHEN GRP IS CLICKED)
         // ----------------        PASS INTO GETCENTERLOCATION FUNCTION, GET CENTER LOCATION,
         // ----------------        AND GET NEARBY RESTAURANTS
         // using current location and other user locations, get a center location
-        var centerLocation = getCenterLocation(currentPos, map);
+        var centralLocation = getCenterLocation(currentPos, map);
         // get restaurants near centerLocation
-        getNearbyRestaurants(centerLocation); 
+        getNearbyRestaurants(centralLocation);
       }
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -166,10 +166,25 @@ function randomRestaurant() {
   // get one random restaurant from restaurant list and drop marker
   var len = nearbyRestaurantsList.length;
   var randomIndex = Math.floor(Math.random() * len);
-  var randomRestaurant = nearbyRestaurantsList[randomIndex];
-  createMarker(randomRestaurant);
+  if (len > 0) {
+    var randomRestaurant = nearbyRestaurantsList[randomIndex];
+    createMarker(randomRestaurant);
+
+    $.ajax({
+      data: randomRestaurant.name,
+      dataType: 'json',
+      type: 'post',
+      url: "/selected_restaurant"
+    });
+  }
   // console.log('random restaurant: ', nearbyRestaurantsList[randomIndex]);
 }
+
+// function newRandomRestaurant() {
+//   // remove all markers
+//   map.removeMarkers();
+//
+// }
 
 function createMarker(place) {
   var marker = new google.maps.Marker({
