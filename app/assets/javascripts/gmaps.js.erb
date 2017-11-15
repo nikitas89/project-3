@@ -124,6 +124,7 @@ function initMap() {
         var centerLocation = getCenterLocation(currentPos, map);
         // get restaurants near centerLocation
         getNearbyRestaurants(centerLocation);
+        console.log( '<%= ENV['G_MAP_API_KEY'] %>' );
       }
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());

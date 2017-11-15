@@ -76,7 +76,7 @@
     </footer>
     <%= stylesheet_link_tag "style" %>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=<% ENV["G_MAP_API_KEY"]%>&callback=initMap&libraries=places">
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["G_MAP_API_KEY"]%>&callback=initMap&libraries=places">
     </script>
   </body>
 </html>
