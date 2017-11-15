@@ -15,7 +15,7 @@
   <%gp_name=gp_name.chomp%>
     <div id="<%=gp_name%>">
       <%=gp_name%>
-
+    <%= link_to gp_name, group_path(group) %>
       <%= link_to "Delete", group_path(group), method: :delete, remote:true %>
       <%= link_to "Edit", edit_group_path(group) %>
       <div class="shareToggle" data-id="<%="#{gp_id}"%>">

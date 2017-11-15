@@ -100,6 +100,27 @@ class GroupsController < ApplicationController
     end
   end # end join
 
+def invite
+  # render json: params[:group.id]
+  # puts 'here!!'
+  # group_param = params[:group]
+  group_id = params[:group][:id]
+  puts params[:group][:users]
+  user_email =  params[:group][:users][:email]
+  group = Group.find_by id: group_id
+  # puts group.name
+  user = User.find_by email: user_email
+  # puts user.name
+  if user.groups.exists?(group.id)
+    puts 'already in grp'
+  else
+  user.groups << group
+  puts user.groups.last.name
+  end
+  redirect_to group_path(group)
+end
+
+
   def locations
     # TODO send groups from front end
     # @group = current_user.groups.find(params[:id])
