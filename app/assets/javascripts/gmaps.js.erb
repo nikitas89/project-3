@@ -1,7 +1,7 @@
 // script for google maps
 
 // creating variables
-var map, userInfoWindow, restoInfoWindow, currentPosMarker;
+var map, userInfoWindow, restoInfoWindow, currentPosMarker, nearbyRestaurantsList;
 
 // initialise map
 function initMap() {
@@ -10,9 +10,88 @@ function initMap() {
   var defaultPosition = new google.maps.LatLng(1.3077785,103.832118);
   map = new google.maps.Map(document.getElementById('map'), {
     center: defaultPosition,
-    zoom: 10
+    zoom: 10,
+    styles: [
+      {elementType: 'geometry', stylers: [{color: '#75808e'}]},
+      {elementType: 'labels.text.stroke', stylers: [{color: '#454b54'}]},
+      {elementType: 'labels.text.fill', stylers: [{color: '#b1c8eb'}]},
+      {
+        featureType: 'administrative.locality',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#b1c8eb'}]
+      },
+      {
+        featureType: 'poi',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#b1c8eb'}]
+      },
+      {
+        featureType: 'poi.park',
+        elementType: 'geometry',
+        stylers: [{color: '#7c9977'}]
+      },
+      {
+        featureType: 'poi.park',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#b1c8eb'}]
+      },
+      {
+        featureType: 'road',
+        elementType: 'geometry',
+        stylers: [{color: '#afb7c2'}]
+      },
+      {
+        featureType: 'road',
+        elementType: 'geometry.stroke',
+        stylers: [{color: '#afb7c2'}]
+      },
+      {
+        featureType: 'road',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#afb7c2'}]
+      },
+      {
+        featureType: 'road.highway',
+        elementType: 'geometry',
+        stylers: [{color: '#465d7a'}]
+      },
+      {
+        featureType: 'road.highway',
+        elementType: 'geometry.stroke',
+        stylers: [{color: '#1f2835'}]
+      },
+      {
+        featureType: 'road.highway',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#b1c8eb'}]
+      },
+      {
+        featureType: 'transit',
+        elementType: 'geometry',
+        stylers: [{color: '#465d7a'}]
+      },
+      {
+        featureType: 'transit.station',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#b1c8eb'}]
+      },
+      {
+        featureType: 'water',
+        elementType: 'geometry',
+        stylers: [{color: '#45628f'}]
+      },
+      {
+        featureType: 'water',
+        elementType: 'labels.text.fill',
+        stylers: [{color: '#b1c8eb'}]
+      },
+      {
+        featureType: 'water',
+        elementType: 'labels.text.stroke',
+        stylers: [{color: '#17263c'}]
+      }
+    ]
   });
-
   // initialise infowindow and setting information
   userInfoWindow = new google.maps.InfoWindow;
 
@@ -24,55 +103,28 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-
-      // set current map pos since current user location is found
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: currentPos,
-        zoom: 18
-      });
-
-      // create custom icon
-      var icon = {
-        url: "<%= asset_path('pin-two.png') %>", // url
-        scaledSize: new google.maps.Size(40, 60), // scaled size
-        origin: new google.maps.Point(0,0), // origin
-        anchor: new google.maps.Point(0,0) // anchor
-      };
-      // create marker using custom icon for current user position
-      currentPosMarker = new google.maps.Marker({
-        position: currentPos,
-        icon: icon
-      });
-      // adding marker to map
+      // set current map position since current user location is found
+      map.setCenter(currentPos);
+      map.setZoom(18);
+      // creating custom marker for current user and adding marker to map
+      currentPosMarker = customMarker(currentPos);
       currentPosMarker.setMap(map);
       // adding infowindow to current user location marker
       google.maps.event.addListener(currentPosMarker, 'click', function() {
         userInfoWindow.setContent('Current location');
         userInfoWindow.open(map, this);
       });
-
-      // // setting current user position infowindow
-      // currentPosMarker.setPosition(currentPos); // set position of infowindow
-      // currentPosMarker.setContent('Current location'); // set content of infowindow
-      // currentPosMarker.open(map); // open map with location in infowindow
-
-      // create request object
-      var request = {
-        location: currentPos,
-        radius: '500',
-        type: ['restaurant'],
-        openNow: true
-      };
-
-      // set restaurant infowindow
-      restoInfoWindow = new google.maps.InfoWindow();
-
-      // searching nearby restaurants with currentPos
-      service = new google.maps.places.PlacesService(map);
-      service.nearbySearch(request, callback);
-
-      // setting positon of map
-      map.setCenter(currentPos);
+      // getting nearby restaurants if user not logged in
+      if(!gon.current_user) getNearbyRestaurants(currentPos);
+      else {
+        // ---------------- TO-DO: GET USER LOCATIONS FROM ACTIONCABLE (WHEN GRP IS CLICKED)
+        // ----------------        PASS INTO GETCENTERLOCATION FUNCTION, GET CENTER LOCATION,
+        // ----------------        AND GET NEARBY RESTAURANTS
+        // using current location and other user locations, get a center location
+        var centerLocation = getCenterLocation(currentPos, map);
+        // get restaurants near centerLocation
+        getNearbyRestaurants(centerLocation);
+      }
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
     });
@@ -82,17 +134,44 @@ function initMap() {
   }
 }
 
+function getNearbyRestaurants(location) {
+  // set to empty array
+  nearbyRestaurantsList = [];
+  // create request object
+  var request = {
+    location: location,
+    radius: '500',
+    type: ['restaurant'],
+    openNow: true
+  };
+  // create new restaurant infowindow
+  restoInfoWindow = new google.maps.InfoWindow();
+  // searching nearby restaurants with currentPos
+  service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+
 function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      var place = results[i];
-      createMarker(results[i]);
-    }
+    results.forEach((result) => {
+      nearbyRestaurantsList.push(result);
+      // createMarker(result);
+    })
   }
+  randomRestaurant();
+}
+
+function randomRestaurant() {
+  // console.log('nearbyRestaurantsList: ', nearbyRestaurantsList);
+  // get one random restaurant from restaurant list and drop marker
+  var len = nearbyRestaurantsList.length;
+  var randomIndex = Math.floor(Math.random() * len);
+  var randomRestaurant = nearbyRestaurantsList[randomIndex];
+  createMarker(randomRestaurant);
+  // console.log('random restaurant: ', nearbyRestaurantsList[randomIndex]);
 }
 
 function createMarker(place) {
-  var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location
@@ -104,6 +183,52 @@ function createMarker(place) {
   });
 }
 
+function getCenterLocation(position, map) {
+  //--------DELETE THIS FOR PROD send random locations for dev purpose, mimic users at diff group_locations
+  var userPositionsList  =
+  [{'lat': 1.3306435,'lng': 103.9060051},
+   {'lat': 1.2965676,'lng': 103.8499297},
+   {'lat': 1.3659974,'lng': 103.8533953}]
+  // push position into userPositionsList array
+  userPositionsList.push(position);
+  // create bounds object
+  var bound = new google.maps.LatLngBounds();
+  // extend bounds using each positon object in array
+  userPositionsList.forEach(userPosition => bound.extend( new google.maps.LatLng(userPosition)));
+  // using bounds object, getCenter
+  var centerLocation = bound.getCenter();
+  // console.log('lat: ',centerLocation.lat(),'lng: ', centerLocation.lng());
+
+  //--------End DELETE THIS FOR PROD
+  $.ajax({
+    data: position,
+    dataType: 'json',
+    type: 'post',
+    url: "/user_location"
+  });
+  // create a custom marker at the center location identified
+  customMarker(centerLocation);
+
+  return centerLocation;
+}
+
+function customMarker(location) {
+  // create a custom icon
+  var icon = {
+    url: "<%= asset_path('pin-two.png') %>",
+    scaledSize: new google.maps.Size(25,40),
+    origin: new google.maps.Point(0,0),
+    anchor: new google.maps.Point(0,0)
+  };
+  // create marker using custom icon
+  var newCustomMarker = new google.maps.Marker({
+    position: location,
+    icon: icon
+  });
+
+  return newCustomMarker;
+}
+
 function handleLocationError(browserHasGeolocation, infoWindow, currentPos) {
   infoWindow.setPosition(currentPos);
   infoWindow.setContent(browserHasGeolocation ?
@@ -111,29 +236,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentPos) {
     'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
 }
-function sendPos(position){
-  // console.log(position.lat);
-  // console.log(position.lng);
 
-  //--------DELETE THIS FOR PROD send random locations for dev purpose, mimic users at diff group_locations
-  var locList  =
-  [{'lat': 1.3306435,'lng': 103.9060051},
-  {'lat': 1.2965676,'lng': 103.8499297},
-  {'lat': 1.3659974,'lng': 103.8533953}]
-
-  var position = locList[Math.round(Math.random()*2)]
-  //--------End DELETE THIS FOR PROD
-  // console.log('got location '+position);
-  $.ajax({
-    data: position,
-    dataType: 'json',
-    type: 'post',
-    url: "/user_location"
-    // url: "/groups_locations"
-  });
-}
-function groupLocations(){
-$.get( "/groups_locations" ).then(function(){
-  console.log(gon.group_locations)
-})
+function groupLocations() {
+  $.get("/groups_locations").then( () => console.log(gon.group_locations) )
 }
