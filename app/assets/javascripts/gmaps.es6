@@ -283,12 +283,14 @@ function getCenterLocation(position, map) {
 
   //--------End DELETE THIS FOR PROD
   // groupLocations()
+  // to set current user's location
   $.ajax({
     data: position,
     dataType: 'json',
     type: 'post',
     url: "/user_location/"
   });
+  // to get all group member's location
   $.ajax({
     data: position,
     dataType: 'json',
