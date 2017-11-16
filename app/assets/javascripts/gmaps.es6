@@ -215,7 +215,7 @@ function randomRestaurant() {
     createMarker(randomRestaurant);
 
     $.ajax({
-      data: randomRestaurant.name,
+      data: {"resto_name":randomRestaurant.name},
       dataType: 'json',
       type: 'post',
       url: "/selected_restaurant"

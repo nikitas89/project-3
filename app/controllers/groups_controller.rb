@@ -95,12 +95,12 @@ class GroupsController < ApplicationController
                                      content:  @group.name,
                                      username: current_user.name,
                                      status: 1
-      end
+      end #end each
       redirect_to groups_path
-    end
-  end # end join
+    end # end if
+  end #end join
 
-def invite
+  def invite
   # render json: params[:group.id]
   # puts 'here!!'
   # group_param = params[:group]
@@ -118,15 +118,27 @@ def invite
   puts user.groups.last.name
   end
   redirect_to group_path(group)
-end
+  end
 
-  
+  def update_restaurant
+    @group = current_user.groups.find(1)
+    @group_users = @group.users.all
+    # render  json: params
+    puts params
+    @resto = params[:resto_name]
+    puts @resto
+      @group_users.each do |user|
+        ActionCable.server.broadcast "chat_channel_#{user.id}",
+                                     restaurant:   @resto,
+                                     status: 4
+      end
+  end
 
 
   def locations
     # TODO: send groups from front end
     # @group = current_user.groups.find(params[:id])
-    @group = current_user.groups.find(35)
+    @group = current_user.groups.find(1)
     @group_users = @group.users.all
     @group_locations = []
     @group_users.each do |user|
@@ -138,8 +150,7 @@ end
     end # endeach
     puts @group_locations
     render 'new'
-    # view = ActionView::Base.new(ActionController::Base.view_paths, {})
-    # view.render(file: '/welcome/index.html.erb')
     gon.group_locations = @group_locations
   end # end loc
+
 end
