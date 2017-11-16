@@ -50,7 +50,7 @@ class GroupsController < ApplicationController
       # puts 'user id is inside : @deleted_group_user_ids'
       # puts user
       ActionCable.server.broadcast "chat_channel_#{user}",
-                                    id:@deleted_group_id,
+                                   id: @deleted_group_id,
                                    content:  @deleted_group_name,
                                    username: current_user.name,
                                    status: 2
@@ -95,29 +95,29 @@ class GroupsController < ApplicationController
                                      content:  @group.name,
                                      username: current_user.name,
                                      status: 1
-      end #end each
+      end # end each
       redirect_to groups_path
     end # end if
-  end #end join
+  end # end join
 
   def invite
-  # render json: params[:group.id]
-  # puts 'here!!'
-  # group_param = params[:group]
-  group_id = params[:group][:id]
-  puts params[:group][:users]
-  user_email =  params[:group][:users][:email]
-  group = Group.find_by id: group_id
-  # puts group.name
-  user = User.find_by email: user_email
-  # puts user.name
-  if user.groups.exists?(group.id)
-    puts 'already in grp'
-  else
-  user.groups << group
-  puts user.groups.last.name
-  end
-  redirect_to group_path(group)
+    # render json: params[:group.id]
+    # puts 'here!!'
+    # group_param = params[:group]
+    group_id = params[:group][:id]
+    puts params[:group][:users]
+    user_email = params[:group][:users][:email]
+    group = Group.find_by id: group_id
+    # puts group.name
+    user = User.find_by email: user_email
+    # puts user.name
+    if user.groups.exists?(group.id)
+      puts 'already in grp'
+    else
+      user.groups << group
+      puts user.groups.last.name
+    end
+    redirect_to group_path(group)
   end
 
   def update_restaurant
@@ -127,17 +127,16 @@ class GroupsController < ApplicationController
     # puts params
     @resto = params[:resto_name]
     # puts @resto
-      @group_users.each do |user|
-        ActionCable.server.broadcast "chat_channel_#{user.id}",
-                                     restaurant:   @resto,
-                                     status: 4
-      end
+    @group_users.each do |user|
+      ActionCable.server.broadcast "chat_channel_#{user.id}",
+                                   restaurant:   @resto,
+                                   status: 4
+    end
   end
-
 
   def locations
     # @group = current_user.groups.find(params[:id])
-    @group = current_user.groups.find(9)
+    @group = current_user.groups.find(1)
     @group_users = @group.users.all
     puts @group_users
     @group_locations = []
@@ -158,5 +157,4 @@ class GroupsController < ApplicationController
     # render 'new'
     # gon.group_locations = @group_locations
   end # end loc
-
 end
