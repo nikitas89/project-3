@@ -1,7 +1,7 @@
 // script for google maps
 
 // creating variables
-var map, userInfoWindow, restoInfoWindow, currentPosMarker, nearbyRestaurantsList;
+var map, userInfoWindow, restoInfoWindow, currentPosMarker, nearbyRestaurantsList, markers = [];
 // initialise map
 function initMap() {
   // defaultPos set to GA
@@ -149,14 +149,19 @@ function initMap() {
       // set current map position since current user location is found
       map.setCenter(currentPos);
       map.setZoom(18);
+
       // creating custom marker for current user and adding marker to map
       currentPosMarker = customMarker(currentPos);
-      currentPosMarker.setMap(map);
+      markers.push(currentPosMarker);
+
+      // currentPosMarker.setMap(map);
+
       // adding infowindow to current user location marker
       google.maps.event.addListener(currentPosMarker, 'click', function() {
         userInfoWindow.setContent('Current location');
         userInfoWindow.open(map, this);
       });
+
       // getting nearby restaurants if user not logged in
       if (!gon.current_user) {
         getNearbyRestaurants(currentPos);
@@ -168,6 +173,8 @@ function initMap() {
         var centralLocation = getCenterLocation(currentPos, map);
         // get restaurants near centerLocation
         getNearbyRestaurants(centralLocation);
+        // setting all markers
+        setMapMarkers();
       }
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
@@ -199,31 +206,27 @@ function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     results.forEach((result) => {
       nearbyRestaurantsList.push(result);
-      // createMarker(result);
     })
   }
-  randomRestaurant();
-}
+  // create marker for first restaurant (pushes marker into markers array)
+  var restaurant = nearbyRestaurantsList[0];
+  createMarker(restaurant);
 
-function randomRestaurant() {
-  // console.log('nearbyRestaurantsList: ', nearbyRestaurantsList);
-  // get one random restaurant from restaurant list and drop marker
   var len = nearbyRestaurantsList.length;
-  var randomIndex = Math.floor(Math.random() * len);
   if (len > 0) {
-    var randomRestaurant = nearbyRestaurantsList[randomIndex];
-    createMarker(randomRestaurant);
-
     $.ajax({
-      data: randomRestaurant.name,
+      data: restaurant.name,
       dataType: 'json',
       type: 'post',
       url: "/selected_restaurant"
     });
   }
 
-  nearbyRestaurantsList.forEach((restaurant) => {
-    console.log('test');
+  updateRestaurantPane(nearbyRestaurantsList);
+}
+
+function updateRestaurantPane(restaurantsList) {
+  restaurantsList.forEach((restaurant) => {
     // target restaurantsList pane
     var restaurantsList = document.getElementById('restaurantsList');
     // create new li element
@@ -232,20 +235,15 @@ function randomRestaurant() {
     listItem.setAttribute("class", "list-group-item");
     restaurantsList.appendChild(listItem);
   })
-  // console.log('random restaurant: ', nearbyRestaurantsList[randomIndex]);
 }
-
-// function newRandomRestaurant() {
-//   // remove all markers
-//   map.removeMarkers();
-//
-// }
 
 function createMarker(place) {
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location
   });
+  // push created marker into markers array
+  markers.push(marker);
 
   google.maps.event.addListener(marker, 'click', function() {
     restoInfoWindow.setContent(place.name);
@@ -294,7 +292,7 @@ function getCenterLocation(position, map) {
 function customMarker(location) {
   // create a custom icon
   var icon = {
-    url: "/assets/pin-two.png",
+    url: "/img/pin-two.png",
     scaledSize: new google.maps.Size(25, 40),
     origin: new google.maps.Point(0, 0),
     anchor: new google.maps.Point(0, 0)
@@ -318,4 +316,18 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentPos) {
 
 function groupLocations() {
   $.get("/groups_locations").then(() => console.log(gon.group_locations))
+}
+
+function setMapMarkers() {
+  markers.forEach((marker) => {
+    marker.setMap(map);
+  })
+}
+
+function removeMapMarkers() {
+  markers.forEach((marker) => {
+    marker.setMap(null);
+  })
+  // empties markers array (need to populate markers array again to drop new markers)
+  markers = [];
 }
