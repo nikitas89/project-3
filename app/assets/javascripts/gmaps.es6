@@ -188,7 +188,7 @@ function getNearbyRestaurants(location) {
   // create request object
   var request = {
     location: location,
-    radius: '500',
+    radius: '5000',
     keyword: ['restaurant', 'cafe'],
     openNow: true
   };
@@ -210,14 +210,14 @@ function callback(results, status) {
   if (len > 0) {
     var restaurant = nearbyRestaurantsList[0];
     createMarker(restaurant);
-    $.ajax({
-      data: {
-        "resto_name": restaurant.name
-      },
-      dataType: 'json',
-      type: 'post',
-      url: "/selected_restaurant"
-    });
+    // $.ajax({
+    //   data: {
+    //     "resto_name": restaurant.name
+    //   },
+    //   dataType: 'json',
+    //   type: 'post',
+    //   url: "/selected_restaurant"
+    // });
   }
   // only update restaurant pane if user is logged in
   if (gon.current_user) {
