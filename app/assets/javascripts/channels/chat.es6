@@ -1,3 +1,4 @@
+var groupLocationsList = [];
 App.chat = App.cable.subscriptions.create("ChatChannel", {
   connected: function() {},
   disconnected: function() {},
@@ -32,10 +33,9 @@ App.chat = App.cable.subscriptions.create("ChatChannel", {
     }
 
     //remove the grp name from show
-    // console.log('data.content', data.content, typeof data.content);
     data.status === 3 ? $('div.notifications').append(htmlUpdate) : ""
-    // console.log(data.location)
-    console.log('data.group_locations: ', data.group_locations);
+    // console.log('data.group_locations: ', data.group_locations);
+    groupLocationsList.push(data.group_locations);
 
     data.status === 4 ? console.log('data.restaurant: ', data.restaurant) : ""
   }

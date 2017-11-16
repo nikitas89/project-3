@@ -34,15 +34,18 @@ $(document).on('turbolinks:load', function() {
   const $groupTab = $('.groupTab');
   $groupTab.on('click', function() {
     var groupId = $(this).attr('aria-controls')
-    console.log('this: ', groupId);
+    // console.log('this: ', groupId);
     // to get all group member's location
-    $.ajax({
-      data: {
-        "id": groupId
-      },
-      dataType: 'json',
-      type: 'post',
-      url: "/groups_locations"
-    });
+    $.when($.ajax({
+        data: {
+          "id": groupId
+        },
+        dataType: 'json',
+        type: 'post',
+        url: "/groups_locations"
+      }))
+      .then(() => {
+        console.log(groupLocationsList);
+      })
   })
 });
