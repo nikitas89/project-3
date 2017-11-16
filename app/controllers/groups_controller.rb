@@ -124,9 +124,9 @@ class GroupsController < ApplicationController
     @group = current_user.groups.find(1)
     @group_users = @group.users.all
     # render  json: params
-    puts params
+    # puts params
     @resto = params[:resto_name]
-    puts @resto
+    # puts @resto
       @group_users.each do |user|
         ActionCable.server.broadcast "chat_channel_#{user.id}",
                                      restaurant:   @resto,
@@ -136,20 +136,22 @@ class GroupsController < ApplicationController
 
 
   def locations
-    # TODO: send groups from front end
     # @group = current_user.groups.find(params[:id])
-    @group = current_user.groups.find(1)
+    @group = current_user.groups.find(9)
     @group_users = @group.users.all
+    puts @group_users
     @group_locations = []
     @group_users.each do |user|
       next unless defined?(user.lat)
       @group_locations << { 'lat' => user.lat, 'lng' => user.lng }
+
       # also avail over sockets
       ActionCable.server.broadcast "chat_channel_#{user.id}",
-                                   location: { 'lat' => user.lat, 'lng' => user.lng }
+                                   location: { 'lat' => user.lat, 'lng' => user.lng },
+                                   group_locations: @group_locations
     end # endeach
-    puts @group_locations
-    render 'new'
+    # puts typeof @group_locations
+    # render 'new'
     gon.group_locations = @group_locations
   end # end loc
 

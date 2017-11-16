@@ -12,6 +12,6 @@ Rails.application.routes.draw do
   post "/groups/:id" => "groups#join"
   post "/invite" => "groups#invite"
   post '/user_location/', to: 'users#setLocation'
-  get '/groups_locations/', to: 'groups#locations'
+  post '/groups_locations/', to: 'groups#locations'
   post '/selected_restaurant/', to: 'groups#update_restaurant'
 end
