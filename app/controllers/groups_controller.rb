@@ -125,6 +125,7 @@ class GroupsController < ApplicationController
     @group_users = @group.users.all
     # render  json: params
     puts params
+    #update to get gp id from params.
     @resto = params[:resto_name]
     puts @resto
       @group_users.each do |user|
@@ -138,6 +139,7 @@ class GroupsController < ApplicationController
   def locations
     # TODO: send groups from front end
     # @group = current_user.groups.find(params[:id])
+    #update to get gp id from params. 
     @group = current_user.groups.find(1)
     @group_users = @group.users.all
     @group_locations = []
