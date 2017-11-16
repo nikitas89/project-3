@@ -151,8 +151,6 @@ class GroupsController < ApplicationController
                                    group_locations: @group_locations
     end # endeach
 
-
-
     # puts typeof @group_locations
     # render 'new'
     # gon.group_locations = @group_locations

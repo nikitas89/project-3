@@ -7,6 +7,7 @@ $(document).on('turbolinks:load', function() {
     $(`.shareGroup.${thisClass}`).toggle("slow");
   });
 
+  // event listener to get new restaurant
   const $newRestaurantButton = $('#newRestaurantButton');
   var restaurantIndex = 1;
   $newRestaurantButton.on('click', () => {
@@ -27,5 +28,21 @@ $(document).on('turbolinks:load', function() {
       // if reached end of nearbyRestaurantsList, start from beginning if button is clicked again
       if (restaurantIndex === nearbyRestaurantsList.length) restaurantIndex = 0;
     }
+  })
+
+  // event listener to send group id back to server
+  const $groupTab = $('.groupTab');
+  $groupTab.on('click', function() {
+    var groupId = $(this).attr('aria-controls')
+    console.log('this: ', groupId);
+    // to get all group member's location
+    $.ajax({
+      data: {
+        "id": groupId
+      },
+      dataType: 'json',
+      type: 'post',
+      url: "/groups_locations"
+    });
   })
 });

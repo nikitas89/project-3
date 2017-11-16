@@ -290,13 +290,6 @@ function getCenterLocation(position, map) {
     type: 'post',
     url: "/user_location/"
   });
-  // to get all group member's location
-  $.ajax({
-    data: position,
-    dataType: 'json',
-    type: 'post',
-    url: "/groups_locations"
-  });
   // create a custom marker at the center location identified
   customMarker(centerLocation);
 

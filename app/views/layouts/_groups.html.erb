@@ -2,7 +2,7 @@
   <ul class="list-group list-group-flush bg-light">
     <% @groups.each do |group| %>
     <li class="list-group-item bg-light">
-      <a class="nav-link text-secondary" data-toggle="collapse" href="#<%= "#{group.id}" %>" aria-expanded="false" aria-controls="<%= "#{group.id}" %>">
+      <a class="nav-link text-secondary groupTab" data-toggle="collapse" href="#<%= "#{group.id}" %>" aria-expanded="false" aria-controls="<%= "#{group.id}" %>">
         Group Name: <%= group.name %>
       </a>
       <div class="collapse" id="<%= "#{group.id}" %>">
