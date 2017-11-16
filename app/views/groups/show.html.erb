@@ -1,5 +1,6 @@
 <!-- <h1>Groups#show</h1> -->
 <!-- <p>Find me in app/views/groups/show.html.erb</p> -->
+<div>
 <h1><%= @group.name %></h1>
 <%gp_id=@group.id%>
 <div>Members:
@@ -16,7 +17,7 @@
   <h3>Sharing</h3>
 <p>Just copy this link and share with your invitees:</p>
 <p>
-  <a href="https://convene3.herokuapp.com/groups/<%="#{gp_id}"%>/add">https://convene3.herokuapp.com/groups<%="#{gp_id}"%>/add</a>
+  <a href="https://convene3.herokuapp.com/groups/<%="#{gp_id}"%>/add">https://convene3.herokuapp.com/groups/<%="#{gp_id}"%>/add</a>
 </p>
   <%= social_share_button_tag(@group.name, :url => "https://convene3.herokuapp.com/groups/#{gp_id}/add") %>
 </div>
@@ -37,5 +38,6 @@
     <%= f.submit("invite user") %>
   <% end %>
 </p>
-
+</div>
+<%= link_to 'Back', groups_path %>
 </div>
