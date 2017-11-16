@@ -20,15 +20,8 @@
     <%= link_to "View", group_path(group) %>
       <%= link_to "Delete", group_path(group), method: :delete, remote:true %>
       <%= link_to "Edit", edit_group_path(group) %>
-      <div class="shareToggle" data-id="<%="#{gp_id}"%>">
-        Get others to join
-    </div>
 
-      <div id="" class="shareGroup <%="#{gp_id}"%>">
-      Just copy this link and share with your invitees:
-        <a href="http://localhost:3000/groups/<%="#{gp_id}"%>/add">http://localhost:3000/groups/<%="#{gp_id}"%>/add</a>
-        <%= social_share_button_tag(gp_name, :url => "http://localhost:3000/groups/#{gp_id}/add") %>
-      </div>
+    </div>
         <% members = group.users.all %>
       <p>  Group members:<br/>
         <% members.each do |mbr| %>
