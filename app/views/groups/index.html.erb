@@ -3,9 +3,9 @@
 <%#= link_to "New", new_group_path %>
 <h5>Hi <%= current_user.name %></h5>
 <div class="col-md-12">
-<%=  form_for  @group do |f| %>
+<%=  form_for  @group, {:class => "form-group"} do |f|  %>
 <%= f.text_field :name%>
-<%= f.submit("create group") %>
+<%= f.submit class:"btn btn-primary" %>
 <% end %>
 
 <div class="">

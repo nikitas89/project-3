@@ -125,7 +125,9 @@ class GroupsController < ApplicationController
     @group = current_user.groups.find(group_id)
     @group_users = @group.users.all
     # render  json: params
+
     # puts params
+
     @resto = params[:resto_name]
     # puts @resto
     @group_users.each do |user|
