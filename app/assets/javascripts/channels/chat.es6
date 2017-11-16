@@ -34,9 +34,16 @@ App.chat = App.cable.subscriptions.create("ChatChannel", {
 
     //remove the grp name from show
     data.status === 3 ? $('div.notifications').append(htmlUpdate) : ""
-    // clear array before sending locations of all users
-    groupLocationsList = [];
-    groupLocationsList.push(data.group_locations);
+    // setting data.group_locations in global variable to expose it to gmaps.es6 and sript.es6
+    var temp = data.group_locations;
+
+    temp.forEach(position => {
+      for(var x in position) {
+        position[x] = parseFloat(position[x]);
+      }
+    })
+
+    groupLocationsList = temp
 
     data.status === 4 ? console.log('data.restaurant: ', data.restaurant) : ""
   }
