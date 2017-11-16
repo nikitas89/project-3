@@ -215,7 +215,9 @@ function callback(results, status) {
   var len = nearbyRestaurantsList.length;
   if (len > 0) {
     $.ajax({
-      data: restaurant.name,
+      data: {
+        "resto_name": randomRestaurant.name
+      },
       dataType: 'json',
       type: 'post',
       url: "/selected_restaurant"
