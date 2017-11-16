@@ -173,9 +173,10 @@ function initMap() {
         var centralLocation = getCenterLocation(currentPos, map);
         // get restaurants near centerLocation
         getNearbyRestaurants(centralLocation);
-        // setting all markers
-        setMapMarkers();
       }
+
+      // setting all markers after everything is done
+      setMapMarkers();
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter());
     });
@@ -216,15 +217,17 @@ function callback(results, status) {
   if (len > 0) {
     $.ajax({
       data: {
-        "resto_name": randomRestaurant.name
+        "resto_name": restaurant.name
       },
       dataType: 'json',
       type: 'post',
       url: "/selected_restaurant"
     });
   }
-
-  updateRestaurantPane(nearbyRestaurantsList);
+  // only update restaurant pane if user is logged in
+  if (gon.current_user) {
+    updateRestaurantPane(nearbyRestaurantsList);
+  }
 }
 
 function updateRestaurantPane(restaurantsList) {

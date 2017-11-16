@@ -2,8 +2,6 @@ App.chat = App.cable.subscriptions.create("ChatChannel", {
   connected: function() {},
   disconnected: function() {},
   received: function(data) {
-
-
     var htmlDelete =
       `<div class="alert alert-success alert-dismissible fade show " role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -38,7 +36,7 @@ App.chat = App.cable.subscriptions.create("ChatChannel", {
     data.status === 3 ? $('div.notifications').append(htmlUpdate) : ""
     console.log(data.location)
 
-    data.status === 4 ? console.log(data.restaurant) :""
+    data.status === 4 ? console.log(data.restaurant) : ""
   }
 });
 
