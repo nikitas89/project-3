@@ -32,11 +32,11 @@ App.chat = App.cable.subscriptions.create("ChatChannel", {
     }
 
     //remove the grp name from show
-    console.log('data.content', data.content, typeof data.content);
+    // console.log('data.content', data.content, typeof data.content);
     data.status === 3 ? $('div.notifications').append(htmlUpdate) : ""
-    console.log(data.location)
+    // console.log('data.location: ', data.location)
 
-    data.status === 4 ? console.log(data.restaurant) : ""
+    data.status === 4 ? console.log('data.restaurant: ', data.restaurant) : ""
   }
 });
 
