@@ -188,7 +188,7 @@ function getNearbyRestaurants(location) {
   // create request object
   var request = {
     location: location,
-    radius: '5000',
+    radius: '500',
     keyword: ['restaurant', 'cafe'],
     openNow: true
   };
