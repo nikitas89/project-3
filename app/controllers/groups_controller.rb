@@ -144,15 +144,19 @@ class GroupsController < ApplicationController
     @group_users.each do |user|
       next unless defined?(user.lat)
       @group_locations << { 'lat' => user.lat, 'lng' => user.lng }
-
+    end
+    @group_users.each do |user|
       # also avail over sockets
       ActionCable.server.broadcast "chat_channel_#{user.id}",
                                    location: { 'lat' => user.lat, 'lng' => user.lng },
                                    group_locations: @group_locations
     end # endeach
+
+
+
     # puts typeof @group_locations
     # render 'new'
-    gon.group_locations = @group_locations
+    # gon.group_locations = @group_locations
   end # end loc
 
 end
