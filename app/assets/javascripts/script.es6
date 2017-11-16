@@ -18,7 +18,6 @@ $(document).on('turbolinks:load', function() {
       var nextRestaurant = nearbyRestaurantsList[restaurantIndex];
       // update title pane
       const $titleBoardText = $('#titleBoardText');
-      console.log(nearbyRestaurantsList[restaurantIndex].name);
       $titleBoardText.text(`Goto: ${nearbyRestaurantsList[restaurantIndex].name}`)
       // make a marker for the next restaurant
       createMarker(nextRestaurant);
