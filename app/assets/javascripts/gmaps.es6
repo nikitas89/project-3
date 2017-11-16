@@ -215,14 +215,14 @@ function callback(results, status) {
 
   var len = nearbyRestaurantsList.length;
   if (len > 0) {
-    $.ajax({
-      data: {
-        "resto_name": restaurant.name
-      },
-      dataType: 'json',
-      type: 'post',
-      url: "/selected_restaurant"
-    });
+    // $.ajax({
+    //   data: {
+    //     "resto_name": restaurant.name
+    //   },
+    //   dataType: 'json',
+    //   type: 'post',
+    //   url: "/selected_restaurant"
+    // });
   }
   // only update restaurant pane if user is logged in
   if (gon.current_user) {
@@ -286,7 +286,7 @@ function getCenterLocation(position, map) {
     data: position,
     dataType: 'json',
     type: 'post',
-    url: "/user_location"
+    url: "/groups_locations"
   });
   // create a custom marker at the center location identified
   customMarker(centerLocation);
