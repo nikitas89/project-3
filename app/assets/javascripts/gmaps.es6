@@ -215,14 +215,15 @@ function callback(results, status) {
 
   var len = nearbyRestaurantsList.length;
   if (len > 0) {
-    // $.ajax({
-    //   data: {
-    //     "resto_name": restaurant.name
-    //   },
-    //   dataType: 'json',
-    //   type: 'post',
-    //   url: "/selected_restaurant"
-    // });
+    $.ajax({
+      data: {
+          // "id": groupId,
+        "resto_name": restaurant.name,
+      },
+      dataType: 'json',
+      type: 'post',
+      url: "/selected_restaurant"
+    });
   }
   // only update restaurant pane if user is logged in
   if (gon.current_user) {

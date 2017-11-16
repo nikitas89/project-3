@@ -16,9 +16,9 @@
   <h3>Sharing</h3>
 <p>Just copy this link and share with your invitees:</p>
 <p>
-  <a href="https://convene3.herokuapp.com/groups<%="#{gp_id}"%>/add">https://convene3.herokuapp.com/groups<%="#{gp_id}"%>/add</a>
+  <a href="https://convene3.herokuapp.com/groups/<%="#{gp_id}"%>/add">https://convene3.herokuapp.com/groups<%="#{gp_id}"%>/add</a>
 </p>
-  <%= social_share_button_tag(@group.name, :url => "https://convene3.herokuapp.com/groups#{gp_id}/add") %>
+  <%= social_share_button_tag(@group.name, :url => "https://convene3.herokuapp.com/groups/#{gp_id}/add") %>
 </div>
 
 <div id="" >

@@ -121,7 +121,8 @@ class GroupsController < ApplicationController
   end
 
   def update_restaurant
-    @group = current_user.groups.find(1)
+    group_id = (params[:id])
+    @group = current_user.groups.find(group_id)
     @group_users = @group.users.all
     # render  json: params
     # puts params
