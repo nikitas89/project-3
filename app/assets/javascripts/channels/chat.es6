@@ -34,7 +34,8 @@ App.chat = App.cable.subscriptions.create("ChatChannel", {
 
     //remove the grp name from show
     data.status === 3 ? $('div.notifications').append(htmlUpdate) : ""
-    // console.log('data.group_locations: ', data.group_locations);
+    // clear array before sending locations of all users
+    groupLocationsList = [];
     groupLocationsList.push(data.group_locations);
 
     data.status === 4 ? console.log('data.restaurant: ', data.restaurant) : ""
