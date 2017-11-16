@@ -135,8 +135,9 @@ class GroupsController < ApplicationController
   end
 
   def locations
-    # @group = current_user.groups.find(params[:id])
-    @group = current_user.groups.find(1)
+    group_id = (params[:id])
+    @group = current_user.groups.find(group_id)
+    puts @group.name
     @group_users = @group.users.all
     puts @group_users
     @group_locations = []
