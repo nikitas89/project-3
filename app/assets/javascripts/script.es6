@@ -16,6 +16,10 @@ $(document).on('turbolinks:load', function() {
       removeMapMarkers();
       // get next restaurant to make a marker for
       var nextRestaurant = nearbyRestaurantsList[restaurantIndex];
+      // update title pane
+      const $titleBoardText = $('#titleBoardText');
+      console.log(nearbyRestaurantsList[restaurantIndex].name);
+      $titleBoardText.text(`Goto: ${nearbyRestaurantsList[restaurantIndex].name}`)
       // make a marker for the next restaurant
       createMarker(nextRestaurant);
       // push custom marker for current user location into markers array again
@@ -36,16 +40,23 @@ $(document).on('turbolinks:load', function() {
     var groupId = $(this).attr('aria-controls')
     // console.log('this: ', groupId);
     // to get all group member's location
-    $.when($.ajax({
-        data: {
-          "id": groupId
-        },
+    $.when($.ajax(
+      {
+        data: { "id": groupId },
         dataType: 'json',
         type: 'post',
         url: "/groups_locations"
-      }))
-      .then(() => {
-        console.log(groupLocationsList);
-      })
+      }
+    ))
+    .then(() => {
+      console.log('post request to /groups_locations completed');
+      // use groupLocationsList, get centerLocation, get getNearbyRestaurants, removeMapMarkers, set new markers, setMapMarkers
+      // set zoom level and center of map
+
+      var centralLocation = getCenterLocation(currentPos, map)
+      // console.log('centralLocation: ', centralLocation);
+      // get restaurants near centerLocation
+      getNearbyRestaurants(centralLocation);
+    })
   })
 });

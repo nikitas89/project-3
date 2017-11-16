@@ -23,3 +23,13 @@ main, .container-fluid, .row, #groups, #main {
   bottom: 22px;
   right: 50px;
 }
+
+#titleBoard {
+  position: absolute;
+  top: 45px;
+  left: 10px;
+  width: 50%;
+  height: 10%;
+  background-color: white;
+  z-index: 1000;
+}

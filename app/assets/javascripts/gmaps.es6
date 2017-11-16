@@ -1,15 +1,15 @@
 // script for google maps
 
 // creating variables
-var map, userInfoWindow, restoInfoWindow, currentPosMarker, nearbyRestaurantsList, markers = [];
+var map, currentPos, userInfoWindow, restoInfoWindow, currentPosMarker, nearbyRestaurantsList, markers = [];
 // initialise map
 function initMap() {
-  // defaultPos set to GA
   // setting default location if current user location is not found
-  var defaultPosition = new google.maps.LatLng(1.3077785, 103.832118);
+  var defaultPosition = new google.maps.LatLng(1.360630, 103.812509);
   map = new google.maps.Map(document.getElementById('map'), {
     center: defaultPosition,
     zoom: 10,
+    gestureHandling: 'cooperative',
     styles: [{
         elementType: 'geometry',
         stylers: [{
@@ -142,13 +142,13 @@ function initMap() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       // gets current location and save in var pos
-      var currentPos = {
+      currentPos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
       // set current map position since current user location is found
-      map.setCenter(currentPos);
-      map.setZoom(18);
+      map.setCenter(defaultPosition);
+      map.setZoom(12);
 
       // creating custom marker for current user and adding marker to map
       currentPosMarker = customMarker(currentPos);
@@ -163,17 +163,13 @@ function initMap() {
       });
 
       // getting nearby restaurants if user not logged in
-      if (!gon.current_user) {
-        getNearbyRestaurants(currentPos);
-      } else {
-        // ---------------- TO-DO: GET USER LOCATIONS FROM ACTIONCABLE (WHEN GRP IS CLICKED)
-        // ----------------        PASS INTO GETCENTERLOCATION FUNCTION, GET CENTER LOCATION,
-        // ----------------        AND GET NEARBY RESTAURANTS
-        // using current location and other user locations, get a center location
-        var centralLocation = getCenterLocation(currentPos, map);
-        // get restaurants near centerLocation
-        getNearbyRestaurants(centralLocation);
-      }
+      if (!gon.current_user) getNearbyRestaurants(currentPos);
+
+      // else {
+      //   var centralLocation = getCenterLocation(currentPos, map);
+      //   // get restaurants near centerLocation
+      //   getNearbyRestaurants(centralLocation);
+      // }
 
       // setting all markers after everything is done
       setMapMarkers();
@@ -193,7 +189,7 @@ function getNearbyRestaurants(location) {
   var request = {
     location: location,
     radius: '500',
-    type: ['restaurant'],
+    keyword: ['restaurant', 'cafe'],
     openNow: true
   };
   // create new restaurant infowindow
@@ -210,11 +206,10 @@ function callback(results, status) {
     })
   }
   // create marker for first restaurant (pushes marker into markers array)
-  var restaurant = nearbyRestaurantsList[0];
-  createMarker(restaurant);
-
   var len = nearbyRestaurantsList.length;
   if (len > 0) {
+    var restaurant = nearbyRestaurantsList[0];
+    createMarker(restaurant);
     // $.ajax({
     //   data: {
     //     "resto_name": restaurant.name
@@ -228,9 +223,13 @@ function callback(results, status) {
   if (gon.current_user) {
     updateRestaurantPane(nearbyRestaurantsList);
   }
+  const $titleBoardText = $('#titleBoardText');
+  console.log(nearbyRestaurantsList[0].name);
+  $titleBoardText.text(`Goto: ${nearbyRestaurantsList[0].name}`)
 }
 
 function updateRestaurantPane(restaurantsList) {
+  $('#restaurantsList').empty();
   restaurantsList.forEach((restaurant) => {
     // target restaurantsList pane
     var restaurantsList = document.getElementById('restaurantsList');
@@ -257,41 +256,25 @@ function createMarker(place) {
 }
 
 function getCenterLocation(position, map) {
-  //--------DELETE THIS FOR PROD send random locations for dev purpose, mimic users at diff group_locations
-  var userPositionsList = [{
-      'lat': 1.3306435,
-      'lng': 103.9060051
-    },
-    {
-      'lat': 1.2965676,
-      'lng': 103.8499297
-    },
-    {
-      'lat': 1.3659974,
-      'lng': 103.8533953
-    }
-  ]
   // push position into userPositionsList array
-  userPositionsList.push(position);
+  // userPositionsList.push(position);
   // create bounds object
+
   var bound = new google.maps.LatLngBounds();
-  // extend bounds using each positon object in array
-  userPositionsList.forEach(userPosition => bound.extend(new google.maps.LatLng(userPosition)));
+  // extend bounds using each position object in array
+  groupLocationsList.forEach(function(userPosition) {
+
+    bound.extend(new google.maps.LatLng(userPosition))
+  });
   // using bounds object, getCenter
   var centerLocation = bound.getCenter();
-  // console.log('lat: ',centerLocation.lat(),'lng: ', centerLocation.lng());
-
-  //--------End DELETE THIS FOR PROD
-  // groupLocations()
-  // to set current user's location
+  // post user location
   $.ajax({
     data: position,
     dataType: 'json',
     type: 'post',
     url: "/user_location/"
   });
-  // create a custom marker at the center location identified
-  customMarker(centerLocation);
 
   return centerLocation;
 }
