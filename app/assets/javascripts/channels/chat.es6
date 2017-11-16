@@ -39,7 +39,7 @@ App.chat = App.cable.subscriptions.create("ChatChannel", {
 
 
 
-    data.status === 4 ? console.log(data.restaurant) : ""
+    data.status === 4 ? console.log('data.restaurant: ', data.restaurant) : ""
   }
 });
 
