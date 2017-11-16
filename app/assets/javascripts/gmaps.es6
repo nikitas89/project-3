@@ -282,6 +282,13 @@ function getCenterLocation(position, map) {
   // console.log('lat: ',centerLocation.lat(),'lng: ', centerLocation.lng());
 
   //--------End DELETE THIS FOR PROD
+  // groupLocations()
+  $.ajax({
+    data: position,
+    dataType: 'json',
+    type: 'post',
+    url: "/user_location/"
+  });
   $.ajax({
     data: position,
     dataType: 'json',
@@ -320,7 +327,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentPos) {
 }
 
 function groupLocations() {
-  $.get("/groups_locations").then(() => console.log(gon.group_locations))
+  // $.get("/gon_locations").then(() => console.log(gon.group_locations))
+  console.log(gon.group_locations)
 }
 
 function setMapMarkers() {
