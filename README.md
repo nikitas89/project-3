@@ -9,10 +9,28 @@
 ![project-3](https://i.imgur.com/xNvmz7n.png)
 
 ## Screenshots
-TBA
+![project-3](/app/assets/images/convene-home.png)
 
 ## User Stories
-![](https://i.imgur.com/jz79PNg.png)
+- When user loads landing page, google maps provides location marker. Map also shows marker of restaurants nearby. (Solo user)
+
+
+- User register/log in by clicking on links at the top right corner of page which loads a pop up overlay.
+
+
+- Once logged in, slider panel on the left shows groups joined. Text box at the top of column allows user to add new group.
+
+- Clicking on the hamburger icon top left of panel view shows user profile.
+
+
+- Google maps api generates minimum distance location for group of friends and markers for restaurants in the area.
+
+- Recommended restaurant slides up from footer. User has option to generate another recommendation by clicking button on bottom right corner.
+
+
+- If all parties agree on the recommendation, one user clicks “Confirm” button to set location for all users. Google maps will show user shortest route to the restaurant.  
+
+
 
 ## ERD
 
@@ -21,16 +39,12 @@ Models used:
 - Users
 - Groups
 - Restaurants
+![](/app/assets/images/ERD.png)
 
 Screenshot TBA
-<!-- ![](/app/assets/images/ERD.png) -->
 
 ## Wireframes
-![](https://i.imgur.com/YDCB4vb.png)
-
-![](https://i.imgur.com/4iiiRCj.png)
-
-![](https://i.imgur.com/63aHKJ1.png)
+Wireframes can be viewed in the [linked powerpoint](https://docs.google.com/presentation/d/1in6kbtegpL88XDrO-k8XBjkr_c3hg36xaMJEvpbe7R8/edit?usp=sharing)
 
 ## This project is built with the following:
 
@@ -92,6 +106,7 @@ ActionCable
 - [Trello](https://trello.com/b/hS6efU8g/convene)
 ![](/app/assets/images/trello.png)
 - Gannt Chart
+![](/app/assets/images/gantt.png)
 
 ### Acknowledgement
 
