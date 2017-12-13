@@ -147,8 +147,8 @@ function initMap() {
         lng: position.coords.longitude
       };
       // set current map position since current user location is found
-      map.setCenter(defaultPosition);
-      map.setZoom(12);
+      map.setCenter(currentPos);
+      map.setZoom(15);
 
       // creating custom marker for current user and adding marker to map
       currentPosMarker = customMarker(currentPos);
@@ -223,9 +223,14 @@ function callback(results, status) {
   if (gon.current_user) {
     updateRestaurantPane(nearbyRestaurantsList);
   }
+  if (len > 0) {
+    const $titleBoard = $('#titleBoard');
+    $titleBoard.show()
+
   const $titleBoardText = $('#titleBoardText');
   console.log(nearbyRestaurantsList[0].name);
   $titleBoardText.text(`Goto: ${nearbyRestaurantsList[0].name}`)
+}
 }
 
 function updateRestaurantPane(restaurantsList) {

@@ -8,6 +8,8 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+
   </head>
 
   <body class="d-flex flex-column">
@@ -35,8 +37,8 @@
             <li class="nav-item">
               <%= link_to "Groups", groups_path, class:"nav-link", method:"get" %>
             </li>
-            <li class="nav-item">
-              <button class="nav-link btn btn-light" type="button" data-toggle="collapse" data-target="#profileDetails" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <li class="nav-item hvr-pulse">
+              <button style="color: black;" class="nav-link btn btn-light" type="button" data-toggle="collapse" data-target="#profileDetails" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 Profile
               </button>
             </li>
@@ -71,7 +73,7 @@
           <div class="d-flex flex-column col p-0" id="main">
             <%- flash.each do |name, msg| -%>
               <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
-              <%- end -%>  
+              <%- end -%>
           <%= yield %>
           </div>
         </div>
