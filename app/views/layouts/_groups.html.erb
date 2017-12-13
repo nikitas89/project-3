@@ -1,12 +1,15 @@
 <div class="card" id="groupDetails">
+  <div class="card-header text-secondary">
+    My Groups
+  </div>
   <ul class="list-group list-group-flush bg-light">
     <% @groups.each do |group| %>
     <li class="list-group-item bg-light">
-      <a class="nav-link text-secondary groupTab" data-toggle="collapse" href="#<%= "#{group.id}" %>" aria-expanded="false" aria-controls="<%= "#{group.id}" %>">
-        Group Name: <%= group.name %>
+      <a class="nav-link  groupTab" data-toggle="collapse" href="#<%= "#{group.id}" %>" aria-expanded="false" aria-controls="<%= "#{group.id}" %>">
+        <%= group.name %>
       </a>
       <div class="collapse" id="<%= "#{group.id}" %>">
-        <div class="card">
+        <!-- <div class="card">
           <ul>
             <li class="list-group-item">
               test1
@@ -15,7 +18,7 @@
               test2
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </li>
     <% end %>
