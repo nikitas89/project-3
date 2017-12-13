@@ -149,28 +149,16 @@ function initMap() {
       // set current map position since current user location is found
       map.setCenter(currentPos);
       map.setZoom(15);
-
       // creating custom marker for current user and adding marker to map
       currentPosMarker = customMarker(currentPos);
       markers.push(currentPosMarker);
-
-      // currentPosMarker.setMap(map);
-
       // adding infowindow to current user location marker
       google.maps.event.addListener(currentPosMarker, 'click', function() {
         userInfoWindow.setContent('Current location');
         userInfoWindow.open(map, this);
       });
-
       // getting nearby restaurants if user not logged in
       if (!gon.current_user) getNearbyRestaurants(currentPos);
-
-      // else {
-      //   var centralLocation = getCenterLocation(currentPos, map);
-      //   // get restaurants near centerLocation
-      //   getNearbyRestaurants(centralLocation);
-      // }
-
       // setting all markers after everything is done
       setMapMarkers();
     }, function() {
@@ -210,6 +198,11 @@ function callback(results, status) {
   if (len > 0) {
     var restaurant = nearbyRestaurantsList[0];
     createMarker(restaurant);
+
+    const $titleBoard = $('#titleBoard');
+    $titleBoard.show()
+    const $titleBoardText = $('#titleBoardText');
+    $titleBoardText.text(`Goto: ${nearbyRestaurantsList[0].name}`)
     // $.ajax({
     //   data: {
     //     "resto_name": restaurant.name
@@ -223,14 +216,6 @@ function callback(results, status) {
   if (gon.current_user) {
     updateRestaurantPane(nearbyRestaurantsList);
   }
-  if (len > 0) {
-    const $titleBoard = $('#titleBoard');
-    $titleBoard.show()
-
-  const $titleBoardText = $('#titleBoardText');
-  console.log(nearbyRestaurantsList[0].name);
-  $titleBoardText.text(`Goto: ${nearbyRestaurantsList[0].name}`)
-}
 }
 
 function updateRestaurantPane(restaurantsList) {
@@ -261,14 +246,10 @@ function createMarker(place) {
 }
 
 function getCenterLocation(position, map) {
-  // push position into userPositionsList array
-  // userPositionsList.push(position);
   // create bounds object
-
   var bound = new google.maps.LatLngBounds();
   // extend bounds using each position object in array
-  groupLocationsList.forEach(function(userPosition) {
-
+  groupLocationsList.forEach(userPosition => {
     bound.extend(new google.maps.LatLng(userPosition))
   });
   // using bounds object, getCenter
@@ -307,11 +288,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, currentPos) {
     'Error: The Geolocation service failed.' :
     'Error: Your browser doesn\'t support geolocation.');
   infoWindow.open(map);
-}
-
-function groupLocations() {
-  // $.get("/gon_locations").then(() => console.log(gon.group_locations))
-  console.log(gon.group_locations)
 }
 
 function setMapMarkers() {

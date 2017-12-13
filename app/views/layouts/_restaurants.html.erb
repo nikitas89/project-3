@@ -1,7 +1,14 @@
-<div class="card" id="restaurantsPane">
-  <div class="card-header text-secondary">
-    Suggested Restaurants
+<div class="list-group" id="restaurantsPane">
+  <div class="card" role="tablist" id="collapseListGroupHeading1">
+    <div role="tab" id="collapseListGroupHeading1">
+      <div class="card-header">
+        <a class="collapsed text-secondary" data-toggle="collapse" href="#collapseListGroup1" aria-expanded="false" aria-controls="collapseListGroup1">
+          Suggested Restaurants
+        </a>
+      </div>
+    </div>
+    <div id="collapseListGroup1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
+      <ul class="list-group" id="restaurantsList"></ul>
+    </div>
   </div>
-  <ul class="list-group list-group-flush" id="restaurantsList">
-  </ul>
 </div>

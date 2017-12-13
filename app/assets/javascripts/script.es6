@@ -25,7 +25,6 @@ $(document).on('turbolinks:load', function() {
       markers.push(currentPosMarker);
       // set the markers on the map
       setMapMarkers();
-
       // increment restaurant index
       restaurantIndex++;
       // if reached end of nearbyRestaurantsList, start from beginning if button is clicked again
@@ -36,9 +35,12 @@ $(document).on('turbolinks:load', function() {
   // event listener to send group id back to server
   const $groupTab = $('.groupTab');
   $groupTab.on('click', function() {
-    var groupId = $(this).attr('aria-controls')
-    // console.log('this: ', groupId);
-    // to get all group member's location
+    // remove all markers
+    removeMapMarkers();
+    // add current user marker
+    markers.push(currentPosMarker);
+    // send group id back to server and request all group member's location
+    var groupId = $(this).attr('aria-controls');
     $.when($.ajax(
       {
         data: { "id": groupId },
@@ -48,14 +50,12 @@ $(document).on('turbolinks:load', function() {
       }
     ))
     .then(() => {
-      console.log('post request to /groups_locations completed');
-      // use groupLocationsList, get centerLocation, get getNearbyRestaurants, removeMapMarkers, set new markers, setMapMarkers
       // set zoom level and center of map
-
       var centralLocation = getCenterLocation(currentPos, map)
-      // console.log('centralLocation: ', centralLocation);
       // get restaurants near centerLocation
       getNearbyRestaurants(centralLocation);
+      // set map markers
+      setMapMarkers();
     })
   })
 });
