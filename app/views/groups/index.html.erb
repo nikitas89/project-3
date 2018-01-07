@@ -2,7 +2,7 @@
 <p>Find me in app/views/group/index.html.erb</p> -->
 <%#= link_to "New", new_group_path %>
 <div class="container">
-
+<br/>
 <h5>Hi <%= current_user.name %></h5>
 <div class="row">
   <div class="col-md-6">
@@ -11,7 +11,7 @@
 <%= f.submit("create group") %>
 <% end %>
 </div>
-<div class="col-md-6 gp_noti notifications"><h5>Notifications</h5>
+<div class="col-md-4 gp_noti notifications"><h5>Notifications</h5>
 <!-- <div class="notifications">Notifications</div> -->
 </div>
 </div>
@@ -23,28 +23,34 @@
 <div>
 <br/>
   <h5>Your Groups:</h5>
-  <div class="card-columns">
+  <div class="card-columns col-md-12">
 
   <% @groups.each do |group| %>
   <%gp_name = group.name%>
   <%gp_name = gp_name.chomp%>
   <%gp_id = group.id%>
     <div class="card" id="<%=gp_name%>">
-      <div class="card-header"><%=gp_name%>
-        <%= link_to "View", group_path(group) %>
+      <div class="card-header "><%=gp_name%>
+        <%= link_to group_path(group) do %>
+          <i class="fa fa-eye"></i>
+        <% end %>
+        <%= link_to edit_group_path(group) do %>
+          <i class="fa fa-pencil"></i>
+        <% end %>
+        <%= link_to group_path(group) , method: :delete, remote:true do %>
+          <i class="fa fa-close"></i>
+        <% end %>
+        <!-- <%= link_to "View", group_path(group) %>
         <%= link_to "Delete", group_path(group), method: :delete, remote:true %>
-        <%= link_to "Edit", edit_group_path(group) %>
+        <%= link_to "Edit", edit_group_path(group) %> -->
       </div>
       <div class="card-body">
-      <!-- <p class="card-text">
-      <%= link_to "View", group_path(group) %>
-      <%= link_to "Delete", group_path(group), method: :delete, remote:true %>
-      <%= link_to "Edit", edit_group_path(group) %>
-    </p> -->
+
       <% members = group.users.all %>
       <p class="card-text"> <% members.each do |mbr| %>
         <%=  mbr.name %> <br/>
-        <%=  mbr.email %> <br/>
+        <small><%=  mbr.email %> <br/></small>
+
       <% end%></p>
       </div>
     </div>

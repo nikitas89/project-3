@@ -1,7 +1,31 @@
 <!-- <h1>Groups#show</h1> -->
 <!-- <p>Find me in app/views/groups/show.html.erb</p> -->
-<div>
-<h1><%= @group.name %></h1>
+<div class="container">
+  <%= link_to 'Back', groups_path %>
+
+  <div class="row"></div>
+<div class="col-md-6 col-sm-12 col-12">
+  <div class="card " id="<%=@group.name %>">
+    <div class="card-header "><%= @group.name %>
+      <%= link_to edit_group_path(@group) do %>
+        <i class="fa fa-pencil"></i>
+      <% end %>
+      <%= link_to group_path(@group) , method: :delete, remote:true do %>
+        <i class="fa fa-close"></i>
+      <% end %>
+    </div>
+    <div class="card-body">
+
+    <% members = @group.users.all %>
+    <p class="card-text"> <% members.each do |mbr| %>
+      <%=  mbr.name %> <br/>
+      <small><%=  mbr.email %> <br/></small>
+    <% end%></p>
+    </div>
+  </div>
+</div>
+
+<!-- <h1><%= @group.name %></h1>
 <%gp_id=@group.id%>
 <div>Members:
 <div>
@@ -10,9 +34,24 @@
   <br/>
 <% end%>
 </div>
-</div>
+ -->
 
+<div class="col-md-6 col-sm-12 col-12">
+  <div class="card" >
+    <div class="card-header ">
+      Sharing
+    </div>
+    <div class="card-body">
+      <p>Just copy this link and share with your invitees:</p>
+      <p>
+        <a href="https://convene3.herokuapp.com/groups/<%="#{gp_id}"%>/add">https://convene3.herokuapp.com/groups/<%="#{gp_id}"%>/add</a>
+      </p>
+        <%= social_share_button_tag(@group.name, :url => "https://convene3.herokuapp.com/groups/#{gp_id}/add") %>
+      </div>
+    </div>
+  </div>
 
+<!--
 <div id="" >
   <h3>Sharing</h3>
 <p>Just copy this link and share with your invitees:</p>
@@ -20,15 +59,36 @@
   <a href="https://convene3.herokuapp.com/groups/<%="#{gp_id}"%>/add">https://convene3.herokuapp.com/groups/<%="#{gp_id}"%>/add</a>
 </p>
   <%= social_share_button_tag(@group.name, :url => "https://convene3.herokuapp.com/groups/#{gp_id}/add") %>
-</div>
+</div> -->
 
-<div id="" >
+<div class="col-md-6 col-sm-12 col-12">
+  <div class="card" >
+    <div class="card-header ">
+      Invite
+    </div>
+    <div class="card-body">
+      <%=  form_for @group, method: :post, url: invite_path  do |f| %>
+      <!-- html form elements -->
+        <%= f.hidden_field :id %>
+        <%= f.hidden_field :name %>
+
+        <%= f.fields_for :users do |group_user| %>
+          <%= group_user.label :email %><br/>
+          <%= group_user.email_field :email %>
+        <% end %>
+        <%= f.submit("invite user") %>
+      <% end %>
+    </div>
+    </div>
+  </div>
+
+<!-- <div id="" >
   <h3>Invite</h3>
-<p>
+<p> -->
 
-  <%=  form_for @group, method: :post, url: invite_path  do |f| %>
+  <!-- <%=  form_for @group, method: :post, url: invite_path  do |f| %> -->
   <!-- html form elements -->
-    <%= f.hidden_field :id %>
+    <!-- <%= f.hidden_field :id %>
     <%= f.hidden_field :name %>
 
     <%= f.fields_for :users do |group_user| %>
@@ -38,5 +98,5 @@
     <%= f.submit("invite user") %>
   <% end %>
 </p>
+</div> -->
 </div>
-<%= link_to 'Back', groups_path %>

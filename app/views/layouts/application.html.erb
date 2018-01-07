@@ -36,8 +36,6 @@
                 Profile
               </button>
             </li>
-            <div>
-
               <li class="nav-item">
                 <%= link_to "Logout", destroy_user_session_path, class:"nav-link", id:"logout", method:"delete" %>
               </li>
@@ -50,7 +48,7 @@
               </li>
             <% end %>
             <!-- Button trigger modal -->
-              </div>
+
               <li class="nav-item">
                 <button type="button" id="infoButton" class="btn btn-info" data-toggle="modal" data-target="#infoModal">
                   How to use
@@ -71,12 +69,11 @@
             <%= render "layouts/groups" %>
           </div>
           <% end %>
-          <div class="d-flex flex-column col p-0" id="main">
+          <div class="d-flex flex-column col p-0 " id="main">
             <%- flash.each do |name, msg| -%>
               <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
               <%- end -%>
-
-          <%= yield %>
+            <%= yield %>
           </div>
         </div>
       </div>

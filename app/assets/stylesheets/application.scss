@@ -4,3 +4,7 @@
  @import "font-awesome";
  @import "datatables";
  @import "groups.scss";
+ 
+ .flex-grow {
+     flex: 1 0 auto;
+ }
