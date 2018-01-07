@@ -14,8 +14,10 @@
 //= require turbolinks
 //= require jquery3
 //= require jquery_ujs
+//= require datatables
 //= require popper
 //= require bootstrap-sprockets
 //= require_tree .
 //= require gmaps
+//= require jquery.easing
 //= require social-share-button

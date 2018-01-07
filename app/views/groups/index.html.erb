@@ -1,39 +1,56 @@
 <!-- <h6>Group#index</h6>
 <p>Find me in app/views/group/index.html.erb</p> -->
 <%#= link_to "New", new_group_path %>
+<div class="container">
+
 <h5>Hi <%= current_user.name %></h5>
-<div class="col-md-12">
+<div class="row">
+  <div class="col-md-6">
 <%=  form_for  @group do |f| %>
 <%= f.text_field :name%>
 <%= f.submit("create group") %>
 <% end %>
+</div>
+<div class="col-md-6 gp_noti notifications"><h5>Notifications</h5>
+<!-- <div class="notifications">Notifications</div> -->
+</div>
+</div>
 
-<div class="">
+<!-- <button type="button" class="btn-block-option" data-toggle="tooltip" title="Edit">
+    <i class="si si-pencil"></i>
+</button> -->
+
+<div>
+<br/>
   <h5>Your Groups:</h5>
-<!-- use ajax to real time update the group names -->
+  <div class="card-columns">
+
   <% @groups.each do |group| %>
-  <%gp_name=group.name%>
-  <%gp_id=group.id%>
-  <%gp_name=gp_name.chomp%>
-    <div id="<%=gp_name%>">
-      <%=gp_name%>
-    <%= link_to "View", group_path(group) %>
+  <%gp_name = group.name%>
+  <%gp_name = gp_name.chomp%>
+  <%gp_id = group.id%>
+    <div class="card" id="<%=gp_name%>">
+      <div class="card-header"><%=gp_name%>
+        <%= link_to "View", group_path(group) %>
+        <%= link_to "Delete", group_path(group), method: :delete, remote:true %>
+        <%= link_to "Edit", edit_group_path(group) %>
+      </div>
+      <div class="card-body">
+      <!-- <p class="card-text">
+      <%= link_to "View", group_path(group) %>
       <%= link_to "Delete", group_path(group), method: :delete, remote:true %>
       <%= link_to "Edit", edit_group_path(group) %>
-
-    </div>
-    
-        <% members = group.users.all %>
-      <p>  Group members:<br/>
-        <% members.each do |mbr| %>
-            <%=  mbr.name %> <br/>
-        <% end%></p>
+    </p> -->
+      <% members = group.users.all %>
+      <p class="card-text"> <% members.each do |mbr| %>
+        <%=  mbr.name %> <br/>
+        <%=  mbr.email %> <br/>
+      <% end%></p>
       </div>
-    <% end%>
-
+    </div>
+  <% end%>
   </div>
-  <div class=" gp_noti notifications"><h5>Notifications:</h5>
-  <!-- <div class="notifications">Notifications</div> -->
+</div>
 
-  </div>
+
 </div>

@@ -1,6 +1,10 @@
 $(document).on('turbolinks:load', function() {
   console.log('script.js loaded');
 
+  $('#infoButton').click(function() {
+     $('#myModal').toggle('slow');
+     });
+
   // $(".shareGroup").hide()
   // $(".shareToggle").click(function() {
   //   var thisClass = $(this).attr("data-id")
