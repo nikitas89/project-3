@@ -1,9 +1,5 @@
-<h1>Groups#edit</h1>
-<p>Find me in app/views/groups/edit.html.erb</p>
-<h1>Edit article</h1>
-
+<h4>Edit article</h4>
 <%= form_with(model: @group) do |form| %>
-
   <% if @group.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -17,16 +13,12 @@
       </ul>
     </div>
   <% end %>
-
   <p>
     <%= form.label :name %><br>
     <%= form.text_field :name %>
   </p>
-
   <p>
     <%= form.submit %>
   </p>
-
 <% end %>
-
 <%= link_to 'Back', groups_path %>
